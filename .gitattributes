@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.sln text eol=crlf
+*.png binary
+*.sprite text eol=lf
+*.txt text eol=lf

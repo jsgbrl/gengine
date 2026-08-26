@@ -1,0 +1,16 @@
+# mario-small
+legend:
+. transparent
+R red
+S skin
+K black
+O deepblue
+B brown
+pixels:
+..RRR..
+.RRRRR.
+.SSKSS.
+.SSSSS.
+.OOOOO.
+.OOOOO.
+.BB.BB.

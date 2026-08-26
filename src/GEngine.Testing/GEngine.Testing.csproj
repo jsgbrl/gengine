@@ -1,0 +1,3 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The test framework is standalone: it must be able to test Core itself. -->
+</Project>

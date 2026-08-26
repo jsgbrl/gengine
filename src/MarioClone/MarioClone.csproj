@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../GEngine.Core/GEngine.Core.csproj" />
+    <ProjectReference Include="../GEngine.Physics/GEngine.Physics.csproj" />
+    <ProjectReference Include="../GEngine.Rendering/GEngine.Rendering.csproj" />
+    <ProjectReference Include="../GEngine.Input/GEngine.Input.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets/**/*.sprite" />
+    <EmbeddedResource Include="levels/**/*.txt" />
+  </ItemGroup>
+</Project>

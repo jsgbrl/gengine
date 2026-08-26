@@ -1,0 +1,11 @@
+# DualSense USB input report, 64 bytes.
+#
+# CONSTRUCTED, NOT CAPTURED. This combination was never pressed on real hardware; the bytes
+# were written by hand from the layout that the captured fixtures next to this one verify.
+# Every individual bit in it does have a captured fixture of its own.
+#
+# L1, R1, create, options, L3 and R3 all held at once
+01 80 80 80 80 00 00 00 08 F3 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00

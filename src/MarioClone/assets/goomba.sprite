@@ -1,0 +1,15 @@
+# goomba
+legend:
+. transparent
+N brown
+L lightbrown
+K black
+W white
+pixels:
+..LLL..
+.LLLLL.
+LLLLLLL
+LWKLKWL
+LLLLLLL
+.NN.NN.
+.NN.NN.

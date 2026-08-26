@@ -1,0 +1,13 @@
+# mushroom
+legend:
+. transparent
+R red
+W white
+N brown
+pixels:
+.RRRR.
+RWRRWR
+RRRRRR
+.WWWW.
+.NWWN.
+..WW..

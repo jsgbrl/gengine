@@ -1,0 +1,14 @@
+# DualSense USB input report, 64 bytes.
+#
+# CAPTURED FROM HARDWARE on 2026-08-26 with examples/04-gamepad-probe.cs and the guided
+# capture described in docs/input-and-gamepad.md.
+# model: DualSense, VID 054C PID 0CE6, over USB, on Windows 11.
+#
+# Bytes 11 and after are the gyroscope, the accelerometer, the touchpad and the battery.
+# They are live sensor data and gengine does not decode them.
+#
+# R3 held, the right stick clicked in. Byte 9 bit 0x80.
+01 7E 7F 89 82 00 00 8C 08 80 00 00 71 46 7C 57
+B1 FF 07 00 71 00 3C 01 F0 1D 18 F4 D8 A2 AC B9
+10 81 3D A1 29 80 00 00 00 60 09 09 00 00 00 00
+00 8D B5 AC B9 2A 08 00 15 4B 6A 9D F7 A2 90 F7

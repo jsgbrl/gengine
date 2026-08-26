@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GEngine.Core/GEngine.Core.csproj" />
+    <Project Path="src/GEngine.Physics/GEngine.Physics.csproj" />
+    <Project Path="src/GEngine.Rendering/GEngine.Rendering.csproj" />
+    <Project Path="src/GEngine.Input/GEngine.Input.csproj" />
+    <Project Path="src/GEngine.Testing/GEngine.Testing.csproj" />
+    <Project Path="src/MarioClone/MarioClone.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/GEngine.Core.Tests/GEngine.Core.Tests.csproj" />
+    <Project Path="tests/GEngine.Physics.Tests/GEngine.Physics.Tests.csproj" />
+    <Project Path="tests/GEngine.Rendering.Tests/GEngine.Rendering.Tests.csproj" />
+    <Project Path="tests/GEngine.Input.Tests/GEngine.Input.Tests.csproj" />
+    <Project Path="tests/GEngine.Testing.Tests/GEngine.Testing.Tests.csproj" />
+    <Project Path="tests/MarioClone.Tests/MarioClone.Tests.csproj" />
+    <Project Path="tests/GEngine.Architecture.Tests/GEngine.Architecture.Tests.csproj" />
+  </Folder>
+</Solution>

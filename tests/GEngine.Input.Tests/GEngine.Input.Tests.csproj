@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../../src/GEngine.Input/GEngine.Input.csproj" />
+    <ProjectReference Include="../../src/GEngine.Testing/GEngine.Testing.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Captured HID reports, in hex, so the DualSense decoder is testable with no
+         DualSense plugged in. -->
+    <EmbeddedResource Include="fixtures/**/*.txt" />
+  </ItemGroup>
+</Project>

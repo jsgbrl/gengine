@@ -1,0 +1,23 @@
+# mario-big
+legend:
+. transparent
+R red
+S skin
+K black
+O deepblue
+B brown
+pixels:
+..RRR..
+.RRRRR.
+.RRRRR.
+.SSKSS.
+.SSSSS.
+..SSS..
+.ROOOR.
+RROOORR
+RROOORR
+.OOOOO.
+.OO.OO.
+.OO.OO.
+.BB.BB.
+.BB.BB.

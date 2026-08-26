@@ -1,0 +1,13 @@
+# DualSense USB input report, 64 bytes.
+#
+# NOT CAPTURED FROM HARDWARE. These reports were constructed from the byte table in the
+# build prompt because no DualSense was available where this was written. Run
+# examples/04-gamepad-probe.cs against a real controller, compare, and replace this file
+# with what it prints - docs/input-and-gamepad.md explains how.
+#
+# a Bluetooth report: different id, different length, different offsets
+31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00

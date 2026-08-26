@@ -1,0 +1,16 @@
+# DualSense USB input report, 64 bytes.
+#
+# CAPTURED FROM HARDWARE with examples/04-gamepad-probe.cs --capture
+# model: DualSense (VID 054C, PID 0CE6) over USB, on Windows 11, 2026-08-26
+#
+# Nothing held, nothing touched, controller flat on a desk. Note bytes 1 to 4: the sticks
+# report 7F 80 and 79 8B rather than 80 80 80 80. A real stick does not rest at the centre,
+# and it wanders by a unit or two from report to report - which is the entire reason
+# DeadZone exists, and why a game that trusts the raw axis drifts across the screen.
+#
+# Bytes 11 and after are the gyroscope, the accelerometer, the touchpad and the battery.
+# They are live sensor data, they differ on every capture, and gengine does not decode them.
+01 7F 80 79 8B 00 00 AA 08 00 00 00 8F CF 2F 57
+01 00 F9 FF 02 00 D6 FF 3C 1F 06 05 A6 24 4F B9
+11 80 00 00 00 80 00 00 00 00 09 09 00 00 00 00
+00 3D 44 4F B9 2A 08 00 ED A3 52 64 7F EE 69 81

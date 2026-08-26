@@ -1,0 +1,3 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Core references nothing. That is the whole point of the layer. -->
+</Project>

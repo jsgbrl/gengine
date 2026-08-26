@@ -1,0 +1,301 @@
+# .editorconfig - the single source of truth for gengine's style.
+# Every rule below is enforced at build time: src/Directory.Build.props turns on
+# EnforceCodeStyleInBuild, so an IDExxxx violation is a compiler error, not an IDE hint.
+# Rule tuning lives here and only here; #pragma warning disable is banned repo-wide
+# and SuppressionRulesTests fails the build if one appears.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{json,yml,yaml,csproj,props,targets,slnx,config}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.cs]
+
+#### Formatting. IDE0055 covers every csharp_/dotnet_ formatting option below. ####
+dotnet_diagnostic.IDE0055.severity = error
+
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+csharp_indent_case_contents = true
+csharp_indent_case_contents_when_block = false
+csharp_indent_switch_labels = true
+csharp_indent_labels = one_less_than_current
+
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_parentheses = false
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_between_square_brackets = false
+
+csharp_preserve_single_line_statements = false
+csharp_preserve_single_line_blocks = true
+
+#### Section 3 of the build prompt, encoded as rules. All of them are errors. ####
+
+# No "this." qualification: the naming convention already says what a member is.
+# Measured, not assumed: IDE0003 does not report during `dotnet build` in .NET 10 even
+# with an explicit severity, so the dotnet_diagnostic lines that would claim otherwise
+# are deliberately absent. These four options still drive the IDE, and StyleRulesTests
+# in GEngine.Architecture.Tests fails the build on a `this.` in engine code.
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_property = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_qualification_for_event = false:error
+
+# var only when the type is readable on the right-hand side.
+csharp_style_var_for_built_in_types = false:error
+csharp_style_var_when_type_is_apparent = true:error
+csharp_style_var_elsewhere = false:error
+dotnet_diagnostic.IDE0007.severity = error
+dotnet_diagnostic.IDE0008.severity = error
+
+# Braces always. A brace-less if is how the second statement gets lost.
+csharp_prefer_braces = true:error
+dotnet_diagnostic.IDE0011.severity = error
+
+# readonly wherever it holds: a field that never changes should say so.
+dotnet_style_readonly_field = true:error
+dotnet_diagnostic.IDE0044.severity = error
+
+# Explicit accessibility everywhere: no guessing what "static Foo Bar()" means.
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:error
+dotnet_diagnostic.IDE0040.severity = error
+
+# Usings sorted, outside the namespace, and none left unused.
+csharp_using_directive_placement = outside_namespace:error
+dotnet_diagnostic.IDE0065.severity = error
+dotnet_diagnostic.IDE0005.severity = error
+
+# One file-scoped namespace per file: saves an indent level on every line.
+csharp_style_namespace_declarations = file_scoped:error
+dotnet_diagnostic.IDE0161.severity = error
+
+# Shape preferences that keep the reading flow of section 3 but are not worth a build
+# break on their own.
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_prefer_index_operator = true:suggestion
+csharp_style_prefer_range_operator = true:suggestion
+csharp_style_expression_bodied_methods = when_on_single_line:silent
+csharp_style_expression_bodied_properties = when_on_single_line:silent
+csharp_style_expression_bodied_constructors = false:silent
+
+# Collapsing an if/else into a ternary is exactly the "clever" the prompt bans.
+dotnet_style_prefer_conditional_expression_over_assignment = false:silent
+dotnet_style_prefer_conditional_expression_over_return = false:silent
+dotnet_diagnostic.IDE0045.severity = none
+dotnet_diagnostic.IDE0046.severity = none
+
+# Unused private members and unused parameters are dead code; section 3 bans it.
+dotnet_diagnostic.IDE0051.severity = error
+dotnet_diagnostic.IDE0052.severity = error
+dotnet_code_quality_unused_parameters = all:error
+
+#### Naming: I for interfaces, _camelCase for private fields, PascalCase for the rest. ####
+
+# Measured: the per-rule `dotnet_naming_rule.*.severity` below is not what the build
+# reads. Without this one line every naming violation stays an IDE-only hint.
+dotnet_diagnostic.IDE1006.severity = error
+
+dotnet_naming_rule.interfaces_start_with_i.severity = error
+dotnet_naming_rule.interfaces_start_with_i.symbols = interface_symbols
+dotnet_naming_rule.interfaces_start_with_i.style = i_prefixed_pascal
+dotnet_naming_symbols.interface_symbols.applicable_kinds = interface
+dotnet_naming_symbols.interface_symbols.applicable_accessibilities = *
+dotnet_naming_style.i_prefixed_pascal.required_prefix = I
+dotnet_naming_style.i_prefixed_pascal.capitalization = pascal_case
+
+dotnet_naming_rule.type_parameters_start_with_t.severity = error
+dotnet_naming_rule.type_parameters_start_with_t.symbols = type_parameter_symbols
+dotnet_naming_rule.type_parameters_start_with_t.style = t_prefixed_pascal
+dotnet_naming_symbols.type_parameter_symbols.applicable_kinds = type_parameter
+dotnet_naming_symbols.type_parameter_symbols.applicable_accessibilities = *
+dotnet_naming_style.t_prefixed_pascal.required_prefix = T
+dotnet_naming_style.t_prefixed_pascal.capitalization = pascal_case
+
+dotnet_naming_rule.types_are_pascal_case.severity = error
+dotnet_naming_rule.types_are_pascal_case.symbols = type_symbols
+dotnet_naming_rule.types_are_pascal_case.style = pascal
+dotnet_naming_symbols.type_symbols.applicable_kinds = class, struct, enum, delegate
+dotnet_naming_symbols.type_symbols.applicable_accessibilities = *
+dotnet_naming_style.pascal.capitalization = pascal_case
+
+dotnet_naming_rule.members_are_pascal_case.severity = error
+dotnet_naming_rule.members_are_pascal_case.symbols = member_symbols
+dotnet_naming_rule.members_are_pascal_case.style = pascal
+dotnet_naming_symbols.member_symbols.applicable_kinds = property, method, event, namespace
+dotnet_naming_symbols.member_symbols.applicable_accessibilities = *
+
+dotnet_naming_rule.constants_are_pascal_case.severity = error
+dotnet_naming_rule.constants_are_pascal_case.symbols = constant_symbols
+dotnet_naming_rule.constants_are_pascal_case.style = pascal
+dotnet_naming_symbols.constant_symbols.applicable_kinds = field
+dotnet_naming_symbols.constant_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.constant_symbols.required_modifiers = const
+
+dotnet_naming_rule.static_readonly_are_pascal_case.severity = error
+dotnet_naming_rule.static_readonly_are_pascal_case.symbols = static_readonly_symbols
+dotnet_naming_rule.static_readonly_are_pascal_case.style = pascal
+dotnet_naming_symbols.static_readonly_symbols.applicable_kinds = field
+dotnet_naming_symbols.static_readonly_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.static_readonly_symbols.required_modifiers = static, readonly
+
+dotnet_naming_rule.public_fields_are_pascal_case.severity = error
+dotnet_naming_rule.public_fields_are_pascal_case.symbols = public_field_symbols
+dotnet_naming_rule.public_fields_are_pascal_case.style = pascal
+dotnet_naming_symbols.public_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.public_field_symbols.applicable_accessibilities = public, internal, protected, protected_internal
+
+dotnet_naming_rule.private_fields_are_underscore_camel.severity = error
+dotnet_naming_rule.private_fields_are_underscore_camel.symbols = private_field_symbols
+dotnet_naming_rule.private_fields_are_underscore_camel.style = underscore_camel
+dotnet_naming_symbols.private_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_field_symbols.applicable_accessibilities = private, private_protected
+dotnet_naming_style.underscore_camel.required_prefix = _
+dotnet_naming_style.underscore_camel.capitalization = camel_case
+
+# A local constant is still a constant, so it is PascalCase like every other one. This rule
+# has to come before the general local rule: the first matching rule wins.
+dotnet_naming_rule.local_constants_are_pascal_case.severity = error
+dotnet_naming_rule.local_constants_are_pascal_case.symbols = local_constant_symbols
+dotnet_naming_rule.local_constants_are_pascal_case.style = pascal
+dotnet_naming_symbols.local_constant_symbols.applicable_kinds = local
+dotnet_naming_symbols.local_constant_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.local_constant_symbols.required_modifiers = const
+
+dotnet_naming_rule.locals_are_camel_case.severity = error
+dotnet_naming_rule.locals_are_camel_case.symbols = local_symbols
+dotnet_naming_rule.locals_are_camel_case.style = camel
+dotnet_naming_symbols.local_symbols.applicable_kinds = local, parameter
+dotnet_naming_symbols.local_symbols.applicable_accessibilities = *
+dotnet_naming_style.camel.capitalization = camel_case
+
+#### CA rules that fight the teaching style, tuned one by one. ####
+# Nothing here is a blanket "make it quiet": each entry says why the rule does not
+# apply to a console engine with no localization and no external consumers.
+# The same list, with these reasons, is mirrored in docs/style.md.
+
+# CA1303 wants every literal moved to a resource file. Rule 8 of the prompt makes the
+# HUD, the menus and the test report English-only on purpose, and a .resx would hide
+# the very strings a reader of the rendering code is looking for.
+dotnet_diagnostic.CA1303.severity = none
+
+# CA1062 wants an ArgumentNullException guard on every reference parameter of every
+# public method. Nullable reference types are enabled with warnings as errors across the
+# whole repository, so passing null to a non-nullable parameter is already a compile
+# error, and the engine has no consumers outside this solution. Guards are still written
+# by hand - ArgumentNullException.ThrowIfNull - wherever a null can genuinely arrive:
+# from reflection, from a file, or from an interface a user of the engine implements.
+dotnet_diagnostic.CA1062.severity = none
+
+# CA1031 bans catching Exception. The engine does it in exactly two places - the
+# top-level game loop and the test runner - because both must restore the terminal and
+# report the failure instead of dying with a half-drawn screen.
+dotnet_diagnostic.CA1031.severity = none
+
+# CA1716 refuses identifiers that are reserved words in another .NET language. It would
+# rename three words this engine is built on: the Loop namespace, IPhysicsWorld.Step and
+# ILogger.Error - all of them the exact term docs/glossary.md fixes for the concept, and
+# all of them reserved in Visual Basic, not in C#. Rule 1 makes this a C# repository with
+# no external consumers, so the vocabulary wins over a cross-language courtesy nobody here
+# can collect on.
+dotnet_diagnostic.CA1716.severity = none
+
+# CA1848 and CA1727 are about Microsoft.Extensions.Logging source generators and log
+# template casing. ILogger here is our own three-method interface; there is no template.
+dotnet_diagnostic.CA1848.severity = none
+dotnet_diagnostic.CA1727.severity = none
+
+# CA1051 bans visible instance fields. Vector2 and Color are readonly value types whose
+# X/Y and R/G/B are the data; properties would add a line of noise per member in the
+# hottest code in the repo and buy nothing that readonly does not already give.
+dotnet_diagnostic.CA1051.severity = none
+
+# CA1002 wants Collection<T> instead of List<T> on a public signature. Every List<T> in
+# the engine's public surface is a caller-owned output buffer - FindPairs(results),
+# Query(area, results) - filled and reused every step precisely so the step allocates
+# nothing. Collection<T> would add a virtual call per element and an allocation per query,
+# which is the exact cost the buffer exists to avoid.
+dotnet_diagnostic.CA1002.severity = none
+
+# CA1819 wants arrays behind IReadOnlyList. A frame buffer is a flat array by
+# definition, and an interface dispatch in the blit loop is the one cost this renderer
+# cannot pay.
+dotnet_diagnostic.CA1819.severity = none
+
+# CA2007 (ConfigureAwait) only matters with a synchronization context. The game loop
+# has no async in it at all.
+dotnet_diagnostic.CA2007.severity = none
+
+#### Interop folders only: DllImport is mandatory here, LibraryImport is not usable. ####
+# SYSLIB1054 asks for [LibraryImport], whose generated marshalling stubs require
+# AllowUnsafeBlocks. Rule 6 bans unsafe, so [DllImport] stays and the suggestion is
+# turned off in the interop folders - GEngine.Rendering/Console/Interop for enabling
+# virtual terminal sequences on Windows, GEngine.Input/Hid/Interop for the gamepad - and
+# nowhere else in the repository.
+[src/**/Interop/**.cs]
+dotnet_diagnostic.SYSLIB1054.severity = none
+
+# CA5392 asks for DefaultDllImportSearchPaths. It guards against loading an attacker's
+# library by name from a writable directory; every import here names a signed OS
+# library already mapped into the process (kernel32, hid, setupapi, libc, IOKit).
+dotnet_diagnostic.CA5392.severity = none
+
+# CA1401 bans public P/Invokes. Ours are not public - NativeMethods is internal and
+# holds nothing but signatures - but the rule still reports on internal members, so it
+# is scoped off here instead of fought member by member.
+dotnet_diagnostic.CA1401.severity = none
+
+#### Tests may say things production code may not. Each relaxation is deliberate. ####
+[tests/**.cs]
+# Test classes and test methods are found by reflection and never called directly, so
+# the unused-member analyzers cannot see the caller.
+dotnet_diagnostic.CA1812.severity = none
+dotnet_diagnostic.IDE0051.severity = none
+
+# CA1822 wants every method that touches no instance state marked static. A test method
+# must stay an instance method: the runner creates one instance per case precisely so no
+# test can see what the previous one left in a field.
+dotnet_diagnostic.CA1822.severity = none
+
+# A test asserting that a constructor throws must call it and drop the result.
+dotnet_diagnostic.CA1806.severity = none
+
+# Test names read as sentences: Jump_WhenGrounded_LeavesTheFloor. Underscores stay.
+dotnet_diagnostic.CA1707.severity = none
+
+# CA1001 asks a type holding a disposable field to be disposable itself. A test class is
+# instantiated once per case by the runner and never disposed - that is the design, and it
+# is what keeps one case from seeing another's state - so the fixtures it holds are
+# in-memory doubles with nothing but managed memory behind them.
+dotnet_diagnostic.CA1001.severity = none
+
+# Tests create disposables without a using when the point of the test is what happens
+# without disposal.
+dotnet_diagnostic.CA2000.severity = none
+
+# XML docs are required on the engine's public surface, not on test methods.
+dotnet_diagnostic.CS1591.severity = none

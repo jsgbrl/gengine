@@ -1,0 +1,15 @@
+# A recorded run of world 1-1, replayed verbatim by ReplayTests.
+#
+# Recorded by an autopilot that ran right and jumped at pits, walls and goombas.
+# Frame numbers are fixed steps, counting from zero.
+0-989 MoveRight Run
+214-233 Jump
+249-268 Jump
+365-384 Jump
+427-446 Jump
+488-507 Jump
+522-541 Jump
+683-702 Jump
+754-773 Jump
+796-815 Jump
+872-891 Jump

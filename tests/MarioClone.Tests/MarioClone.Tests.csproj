@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <!-- The recorded run the replay test plays back. -->
+    <EmbeddedResource Include="fixtures/**/*.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/MarioClone/MarioClone.csproj" />
+    <ProjectReference Include="../../src/GEngine.Testing/GEngine.Testing.csproj" />
+  </ItemGroup>
+</Project>
