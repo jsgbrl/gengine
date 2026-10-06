@@ -10,14 +10,14 @@ using GEngine.Core;
 
 namespace GEngine.Rendering.Text;
 
-/// <summary>The built-in bitmap font, and how to draw with it.</summary>
-public static class BitmapFont
+/// <summary>The built-in pixel font, and how to draw with it.</summary>
+public static class PixelFont
 {
     /// <summary>Width of one glyph, in pixels.</summary>
-    public const int GlyphWidth = BitmapFontGlyphs.Width;
+    public const int GlyphWidth = PixelFontGlyphs.Width;
 
     /// <summary>Height of one glyph, in pixels.</summary>
-    public const int GlyphHeight = BitmapFontGlyphs.Height;
+    public const int GlyphHeight = PixelFontGlyphs.Height;
 
     /// <summary>Blank columns between two glyphs.</summary>
     public const int Spacing = 1;
@@ -35,12 +35,12 @@ public static class BitmapFont
     }
 
     /// <summary>True when the font has a glyph for a character.</summary>
-    /// <param name="character">The character.</param>
+    /// <param name="character">The character to look for; anything outside the font has no glyph.</param>
     /// <returns>True when it can be drawn.</returns>
-    public static bool Contains(char character) => BitmapFontGlyphs.All.ContainsKey(Normalise(character));
+    public static bool Contains(char character) => PixelFontGlyphs.All.ContainsKey(Normalise(character));
 
     /// <summary>True when one dot of a glyph is filled.</summary>
-    /// <param name="character">The character.</param>
+    /// <param name="character">The character whose glyph to read.</param>
     /// <param name="column">Column inside the glyph, from the left.</param>
     /// <param name="row">Row inside the glyph, from the top.</param>
     /// <returns>True when the dot is part of the letter.</returns>
@@ -51,7 +51,7 @@ public static class BitmapFont
             return false;
         }
 
-        return BitmapFontGlyphs.All.TryGetValue(Normalise(character), out string? glyph)
+        return PixelFontGlyphs.All.TryGetValue(Normalise(character), out string? glyph)
             && glyph[(row * GlyphWidth) + column] == '#';
     }
 

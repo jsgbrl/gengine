@@ -1,7 +1,8 @@
-// Holding a frame rate without burning a core. Thread.Sleep is coarse and differently
-// coarse on each system - around a millisecond on Linux and macOS, up to fifteen on
-// Windows with the default timer - so the pacer sleeps the bulk of the wait and spins the
-// last few milliseconds, where sleeping would overshoot the frame.
+// Holding a frame rate without burning a core.
+//
+// Thread.Sleep is coarse and differently coarse on each system - around a millisecond on Linux
+// and macOS, up to fifteen on Windows with the default timer - so the pacer sleeps the bulk of
+// the wait and spins the last few milliseconds, where sleeping would overshoot the frame.
 
 using System;
 using GEngine.Core.Time;

@@ -1,6 +1,7 @@
-// The one place that decides whether two bodies are worth a closer look. Both broad phases
-// call it, which is what lets a test assert that the fast one and the slow one return
-// exactly the same set: if they disagreed, the disagreement could only be in the
+// The one place that decides whether two bodies are worth a closer look.
+//
+// Both broad phases call it, which is what lets a test assert that the fast one and the slow
+// one return exactly the same set: if they disagreed, the disagreement could only be in the
 // acceleration structure, which is precisely what the test is there to catch.
 
 using System;

@@ -48,7 +48,7 @@ public sealed class EventBus
 
     /// <summary>Delivers a message to every subscriber of its type.</summary>
     /// <typeparam name="TEvent">Type of the message.</typeparam>
-    /// <param name="message">The message.</param>
+    /// <param name="message">The message; its runtime type decides who hears it.</param>
     public void Publish<TEvent>(TEvent message)
     {
         if (_handlers.TryGetValue(typeof(TEvent), out Delegate? handler))

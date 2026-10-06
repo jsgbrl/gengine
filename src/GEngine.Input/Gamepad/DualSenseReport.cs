@@ -42,7 +42,7 @@ public static class DualSenseReport
     private const int SystemButtonsOffset = 10;
 
     /// <summary>How the controller sending a report is attached, judging by its report id.</summary>
-    /// <param name="report">The report.</param>
+    /// <param name="report">The bytes as the device sent them, including the report id.</param>
     /// <returns>USB, Bluetooth, or unknown.</returns>
     public static HidTransport TransportOf(ReadOnlySpan<byte> report)
     {
@@ -60,7 +60,7 @@ public static class DualSenseReport
     }
 
     /// <summary>The sequence counter, which increments once per report the controller sends.</summary>
-    /// <param name="report">The report.</param>
+    /// <param name="report">The bytes as the device sent them.</param>
     /// <returns>The counter, or zero when the report is too short.</returns>
     public static byte SequenceOf(ReadOnlySpan<byte> report) =>
         report.Length > SequenceCounter ? report[SequenceCounter] : (byte)0;

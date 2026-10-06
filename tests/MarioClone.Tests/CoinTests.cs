@@ -8,7 +8,7 @@ using MarioClone.Tests.Doubles;
 namespace MarioClone.Tests;
 
 /// <summary>Coins and mushrooms: collected once, and never twice.</summary>
-public sealed class PickupTests
+public sealed class CoinTests
 {
     private const string CoinOnTheWay = """
         tiles:
@@ -50,46 +50,6 @@ public sealed class PickupTests
         test.Hold(InputAction.MoveRight);
         test.Step(90);
         Assert.IsTrue(test.Player.Position.X > 40.0f, "the player walked straight through where it was");
-    }
-
-    [Test]
-    public void AMushroomMakesThePlayerBig()
-    {
-        var test = new TestWorld("""
-            tiles:
-            ............
-            ............
-            ..M.........
-            ############
-            """);
-
-        test.Step(5);
-        Assert.AreEqual(PlayerSize.Small, test.Player.Size);
-        float feetBefore = test.Player.Bounds.Bottom;
-
-        test.Player.Grow();
-
-        Assert.AreEqual(PlayerSize.Big, test.Player.Size);
-        Assert.ApproximatelyEqual(feetBefore, test.Player.Bounds.Bottom, 0.01f, "it grew upwards, not into the floor");
-        Assert.ApproximatelyEqual(Player.BigHeightPixels, test.Player.Bounds.Size.Y, 0.01f);
-        Assert.AreEqual(1, test.Audio.CountOf(GameSound.PowerUp));
-    }
-
-    [Test]
-    public void GrowingTwiceChangesNothingTheSecondTime()
-    {
-        var test = new TestWorld("""
-            tiles:
-            ............
-            ............
-            ..M.........
-            ############
-            """);
-
-        test.Step(5);
-        test.Player.Grow();
-        test.Player.Grow();
-        Assert.AreEqual(1, test.Audio.CountOf(GameSound.PowerUp));
     }
 
     private static void RunUntilCollected(TestWorld test)

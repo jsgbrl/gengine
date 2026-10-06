@@ -1,7 +1,8 @@
-// What the composition root needs from a physics world, and no more. The queries a game
-// makes - raycasts, overlap tests, adding bodies - live on the concrete PhysicsWorld,
-// because describing them here would mean describing a rigid body here, and Core would
-// have absorbed the module it is supposed to be independent of.
+// What the composition root needs from a physics world, and no more.
+//
+// The queries a game makes - raycasts, overlap tests, adding bodies - live on the concrete
+// PhysicsWorld, because describing them here would mean describing a rigid body here, and Core
+// would have absorbed the module it is supposed to be independent of.
 
 namespace GEngine.Core.Contracts;
 

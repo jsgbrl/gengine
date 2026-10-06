@@ -18,9 +18,9 @@ public sealed class FrameBufferDrawingTests
     public void Setup() => _buffer = new FrameBuffer(8, 6);
 
     [Test]
-    public void DrawRect_FillsExactlyTheRectangle()
+    public void DrawRectangle_FillsExactlyTheRectangle()
     {
-        _buffer.DrawRect(new Aabb(new Vector2(2.0f, 1.0f), new Vector2(5.0f, 3.0f)), Palette.White);
+        _buffer.DrawRectangle(new Aabb(new Vector2(2.0f, 1.0f), new Vector2(5.0f, 3.0f)), Palette.White);
         Assert.MatchesSnapshot(Capture(), string.Join("\n",
             "........",
             "..@@@...",
@@ -34,23 +34,23 @@ public sealed class FrameBufferDrawingTests
     [TestCase(6.0f, 0.0f)]
     [TestCase(0.0f, -4.0f)]
     [TestCase(0.0f, 5.0f)]
-    public void DrawRect_ClipsAgainstEveryEdgeWithoutWrapping(float x, float y)
+    public void DrawRectangle_ClipsAgainstEveryEdgeWithoutWrapping(float x, float y)
     {
-        _buffer.DrawRect(new Aabb(new Vector2(x, y), new Vector2(x + 4.0f, y + 4.0f)), Palette.White);
+        _buffer.DrawRectangle(new Aabb(new Vector2(x, y), new Vector2(x + 4.0f, y + 4.0f)), Palette.White);
         AssertNothingWrapped();
     }
 
     [Test]
-    public void DrawRect_EntirelyOutside_DrawsNothing()
+    public void DrawRectangle_EntirelyOutside_DrawsNothing()
     {
-        _buffer.DrawRect(new Aabb(new Vector2(100.0f, 100.0f), new Vector2(110.0f, 110.0f)), Palette.White);
+        _buffer.DrawRectangle(new Aabb(new Vector2(100.0f, 100.0f), new Vector2(110.0f, 110.0f)), Palette.White);
         Assert.MatchesSnapshot(Capture(), string.Join("\n", "........", "........", "........", "........", "........", "........"));
     }
 
     [Test]
-    public void DrawRectOutline_DrawsFourEdgesAndAHollowMiddle()
+    public void DrawRectangleOutline_DrawsFourEdgesAndAHollowMiddle()
     {
-        _buffer.DrawRectOutline(new Aabb(new Vector2(1.0f, 1.0f), new Vector2(5.0f, 4.0f)), Palette.White);
+        _buffer.DrawRectangleOutline(new Aabb(new Vector2(1.0f, 1.0f), new Vector2(5.0f, 4.0f)), Palette.White);
         Assert.MatchesSnapshot(Capture(), string.Join("\n",
             "........",
             ".@@@@...",
@@ -61,9 +61,9 @@ public sealed class FrameBufferDrawingTests
     }
 
     [Test]
-    public void Blit_CopiesASourceAtAPosition()
+    public void DrawPixels_CopiesASourceAtAPosition()
     {
-        _buffer.Blit(Block(2, 2), new Vector2(3.0f, 2.0f));
+        _buffer.DrawPixels(Block(2, 2), new Vector2(3.0f, 2.0f));
         Assert.MatchesSnapshot(Capture(), string.Join("\n",
             "........",
             "........",
@@ -74,9 +74,9 @@ public sealed class FrameBufferDrawingTests
     }
 
     [Test]
-    public void Blit_ClipsAtTheLeftAndTopWithoutWrapping()
+    public void DrawPixels_ClipsAtTheLeftAndTopWithoutWrapping()
     {
-        _buffer.Blit(Block(3, 3), new Vector2(-2.0f, -2.0f));
+        _buffer.DrawPixels(Block(3, 3), new Vector2(-2.0f, -2.0f));
         Assert.MatchesSnapshot(Capture(), string.Join("\n",
             "@.......",
             "........",
@@ -87,9 +87,9 @@ public sealed class FrameBufferDrawingTests
     }
 
     [Test]
-    public void Blit_ClipsAtTheRightAndBottomWithoutWrapping()
+    public void DrawPixels_ClipsAtTheRightAndBottomWithoutWrapping()
     {
-        _buffer.Blit(Block(3, 3), new Vector2(6.0f, 4.0f));
+        _buffer.DrawPixels(Block(3, 3), new Vector2(6.0f, 4.0f));
         Assert.MatchesSnapshot(Capture(), string.Join("\n",
             "........",
             "........",
@@ -100,16 +100,16 @@ public sealed class FrameBufferDrawingTests
     }
 
     [Test]
-    public void Blit_SkipsTransparentPixelsInTheSource()
+    public void DrawPixels_SkipsTransparentPixelsInTheSource()
     {
         _buffer.Clear(Palette.White);
-        _buffer.Blit(new Sprite("hole", 2, 1, [Color.Transparent, Palette.Black]), new Vector2(0.0f, 0.0f));
+        _buffer.DrawPixels(new Sprite("hole", 2, 1, [Color.Transparent, Palette.Black]), new Vector2(0.0f, 0.0f));
         Assert.AreEqual(Palette.White, _buffer.GetPixel(0, 0));
         Assert.AreEqual(Palette.Black, _buffer.GetPixel(1, 0));
     }
 
     [Test]
-    public void DrawSprite_IsBlitUnderAnotherName()
+    public void DrawSprite_IsDrawPixelsUnderAnotherName()
     {
         _buffer.DrawSprite(Block(2, 2), new Vector2(0.0f, 0.0f));
         Assert.AreEqual(Palette.White, _buffer.GetPixel(1, 1));

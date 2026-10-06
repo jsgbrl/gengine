@@ -1,7 +1,9 @@
-// The verbs of the game. Nothing above this layer ever names a key or a button: the
-// player controller asks whether Jump is down, and whether that came from the space bar
-// or from Cross on a DualSense is the input layer's problem. That is the Command pattern
-// with the command reduced to its smallest possible form, an enum member.
+// The verbs of the game.
+//
+// Nothing above this layer ever names a key or a button: the player controller asks whether
+// Jump is down, and whether that came from the space bar or from Cross on a DualSense is the
+// input layer's problem. That is the Command pattern with the command reduced to its smallest
+// possible form, an enum member.
 
 namespace GEngine.Core.Contracts;
 

@@ -74,7 +74,7 @@ disk (for editing without a rebuild), and in memory (for tests).
 ## Reading the pipeline
 
 ```
-Sprite / BitmapFont  ->  FrameBuffer  ->  IRenderer  ->  ConsoleRenderer -> terminal
+Sprite / PixelFont   ->  FrameBuffer  ->  IRenderer  ->  ConsoleRenderer -> terminal
                                                       -> HeadlessRenderer -> AsciiSnapshot
 ```
 

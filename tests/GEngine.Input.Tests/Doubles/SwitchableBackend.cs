@@ -20,7 +20,18 @@ internal sealed class SwitchableBackend : IInputBackend
 
     public void Set(InputAction action, float value) => _values[(int)action] = value;
 
-    public void Poll(float deltaSeconds) => PollCount++;
+    // A source that finds its device during Poll, which is what a gamepad rescanning for a
+    // controller actually does.
+    public int ConnectsOnPoll { get; set; } = -1;
+
+    public void Poll(float deltaSeconds)
+    {
+        PollCount++;
+        if (ConnectsOnPoll >= 0 && PollCount >= ConnectsOnPoll)
+        {
+            IsConnected = true;
+        }
+    }
 
     public bool IsDown(InputAction action) => _values[(int)action] >= 0.5f;
 

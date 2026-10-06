@@ -1,8 +1,9 @@
-// Object Pool. Sixty frames a second times one allocation per spawned coin is three
-// thousand six hundred objects a minute for the collector to trace and free. None of them
-// is large, and that is the point: the cost is not the memory, it is the pause. A pool
-// trades a little permanent memory for a game that never stutters on a generation-zero
-// collection in the middle of a jump.
+// Object Pool.
+//
+// Sixty frames a second times one allocation per spawned coin is three thousand six hundred
+// objects a minute for the collector to trace and free. None of them is large, and that is the
+// point: the cost is not the memory, it is the pause. A pool trades a little permanent memory
+// for a game that never stutters on a generation-zero collection in the middle of a jump.
 
 using System;
 using System.Collections.Generic;

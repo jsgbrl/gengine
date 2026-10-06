@@ -96,7 +96,7 @@ internal sealed class BouncingBalls : IGame
         _frame.Clear(Palette.DeepBlue);
         foreach (RigidBody2D body in _world.Bodies)
         {
-            _frame.DrawRect(body.Bounds, ColorOf(body));
+            _frame.DrawRectangle(body.Bounds, ColorOf(body));
         }
 
         _frame.DrawText("RESTITUTION 0.00 0.20 0.40 0.60 0.80 0.95", new Vector2(2.0f, 2.0f), Palette.White);

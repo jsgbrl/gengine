@@ -1,7 +1,9 @@
-// Where the view is. A camera that simply centres on the player twitches with every step he
-// takes, so the target is allowed to wander inside a dead zone in the middle of the screen
-// before the view moves at all - and then the view moves by exactly the excess, which means
-// it never overshoots and never has to spring back.
+// Where the view is.
+//
+// A camera that simply centres on the player twitches with every step he takes, so the target
+// is allowed to wander inside a dead zone in the middle of the screen before the view moves at
+// all - and then the view moves by exactly the excess, which means it never overshoots and
+// never has to spring back.
 
 using System;
 using GEngine.Core;

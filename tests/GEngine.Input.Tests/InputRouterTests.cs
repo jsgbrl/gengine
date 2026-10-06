@@ -1,4 +1,3 @@
-using System;
 using GEngine.Core.Contracts;
 using GEngine.Input.Actions;
 using GEngine.Input.Tests.Doubles;
@@ -11,7 +10,7 @@ namespace GEngine.Input.Tests;
 /// costs nothing, because there is no current source to swap: every connected one is polled
 /// every frame and the strongest report wins.
 /// </summary>
-public sealed class InputRouterTests
+public sealed partial class InputRouterTests
 {
     private const float Frame = 1.0f / 60.0f;
 
@@ -55,14 +54,39 @@ public sealed class InputRouterTests
         Assert.ApproximatelyEqual(1.0f, _state.AxisValue(InputAction.MoveLeft));
     }
 
+    // A disconnected source is still polled, and still contributes nothing. Those are two
+    // different questions and an earlier version answered both with "skip it": a gamepad with no
+    // controller was never polled, so it never rescanned, so plugging one in mid-game did
+    // nothing at all. The one call that would have noticed was the call being skipped.
     [Test]
-    public void ADisconnectedSourceIsNotPolledAtAll()
+    public void ADisconnectedSourceIsStillPolled_AndStillContributesNothing()
     {
         SwitchableBackend pad = Add("pad");
         pad.IsConnected = false;
+        pad.Set(InputAction.MoveLeft, 1.0f);
+
         _router.Poll(Frame);
-        Assert.AreEqual(0, pad.PollCount);
+
+        Assert.AreEqual(1, pad.PollCount, "it has to be polled, or it can never find a device");
         Assert.AreEqual(0, _router.ConnectedCount);
+        Assert.ApproximatelyEqual(0.0f, _state.AxisValue(InputAction.MoveLeft), 0.0f, "and says nothing");
+    }
+
+    [Test]
+    public void ASourceThatFindsItsDeviceDuringPollIsPickedUpOnTheNextFrame()
+    {
+        SwitchableBackend pad = Add("pad");
+        pad.IsConnected = false;
+        pad.ConnectsOnPoll = 2;
+        pad.Set(InputAction.Jump, 1.0f);
+
+        _router.Poll(Frame);
+        Assert.AreEqual(0, _router.ConnectedCount, "still nothing plugged in");
+
+        _router.Poll(Frame);
+        Assert.AreEqual(1, _router.ConnectedCount, "the controller was found during that poll");
+        Assert.IsTrue(_state.IsDown(InputAction.Jump), "and answered on the same frame");
+        Assert.AreSame(pad, _router.ActiveBackend);
     }
 
     [Test]
@@ -107,57 +131,6 @@ public sealed class InputRouterTests
         pad.Set(InputAction.Jump, 0.0f);
         _router.Poll(Frame);
         Assert.AreSame(pad, _router.ActiveBackend, "the title screen keeps showing gamepad controls");
-    }
-
-    [Test]
-    public void Remove_TakesTheSourceOutAndDisposesIt()
-    {
-        SwitchableBackend pad = Add("pad");
-        Assert.IsTrue(_router.Remove(pad));
-        Assert.AreEqual(1, pad.DisposeCount);
-        Assert.AreEqual(0, _router.Backends.Count);
-        Assert.IsFalse(_router.Remove(pad));
-    }
-
-    [Test]
-    public void RemovingTheActiveSource_ClearsIt()
-    {
-        SwitchableBackend pad = Add("pad");
-        pad.Set(InputAction.Jump, 1.0f);
-        _router.Poll(Frame);
-        _router.Remove(pad);
-        Assert.IsNull(_router.ActiveBackend);
-    }
-
-    [Test]
-    public void Dispose_DisposesEverySourceAndForgetsThemAll()
-    {
-        SwitchableBackend pad = Add("pad");
-        SwitchableBackend keyboard = Add("keyboard");
-        _router.Dispose();
-        Assert.AreEqual(1, pad.DisposeCount);
-        Assert.AreEqual(1, keyboard.DisposeCount);
-        Assert.AreEqual(0, _router.Backends.Count);
-    }
-
-    [Test]
-    public void EdgesSurviveAcrossFrames()
-    {
-        SwitchableBackend pad = Add("pad");
-        pad.Set(InputAction.Jump, 1.0f);
-        _router.Poll(Frame);
-        Assert.IsTrue(_state.WasPressedThisFrame(InputAction.Jump));
-
-        pad.Set(InputAction.Jump, 0.0f);
-        _router.Poll(Frame);
-        Assert.IsTrue(_state.WasReleasedThisFrame(InputAction.Jump));
-    }
-
-    [Test]
-    public void AMissingStateOrSourceIsRefused()
-    {
-        Assert.Throws<ArgumentNullException>(static () => new InputRouter(null!));
-        Assert.Throws<ArgumentNullException>(() => _router.Add(null!));
     }
 
     private SwitchableBackend Add(string name)

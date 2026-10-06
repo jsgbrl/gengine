@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace GEngine.Rendering.Text;
 
-internal static class BitmapFontGlyphs
+internal static class PixelFontGlyphs
 {
     public const int Width = 5;
     public const int Height = 7;

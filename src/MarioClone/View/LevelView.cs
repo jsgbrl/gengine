@@ -72,10 +72,10 @@ public sealed class LevelView
     {
         Color body = kind == TileKind.Pipe ? Palette.Green : Palette.Brown;
         Color top = kind == TileKind.Pipe ? Palette.LightGreen : Palette.LightBrown;
-        frame.DrawRect(box, body);
+        frame.DrawRectangle(box, body);
         if (above == TileKind.Empty)
         {
-            frame.DrawRect(new Aabb(box.Min, new Vector2(box.Max.X, box.Min.Y + 2.0f)), top);
+            frame.DrawRectangle(new Aabb(box.Min, new Vector2(box.Max.X, box.Min.Y + 2.0f)), top);
         }
     }
 
@@ -94,7 +94,7 @@ public sealed class LevelView
 
         if (!_atlas.TryGet(actor.SpriteName, out Sprite? sprite) || sprite is null)
         {
-            frame.DrawRect(Screen(camera, actor.Bounds), Palette.White);
+            frame.DrawRectangle(Screen(camera, actor.Bounds), Palette.White);
             return;
         }
 
@@ -105,7 +105,7 @@ public sealed class LevelView
     private void DrawGoal(FrameBuffer frame, Camera2D camera, Actor goal)
     {
         Aabb box = Screen(camera, goal.Bounds);
-        frame.DrawRect(new Aabb(new Vector2(box.Center.X - 1.0f, box.Top), new Vector2(box.Center.X + 1.0f, box.Bottom)), Palette.Grey);
+        frame.DrawRectangle(new Aabb(new Vector2(box.Center.X - 1.0f, box.Top), new Vector2(box.Center.X + 1.0f, box.Bottom)), Palette.Grey);
         if (_atlas.TryGet("flag", out Sprite? flag) && flag is not null)
         {
             frame.DrawSprite(flag, new Vector2(box.Center.X, box.Top + 2.0f));

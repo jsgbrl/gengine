@@ -28,13 +28,13 @@ public static class KnownDevices
     };
 
     /// <summary>Whether a device is a controller this engine can decode.</summary>
-    /// <param name="device">The device.</param>
+    /// <param name="device">The device, as enumeration described it.</param>
     /// <returns>True when it is a DualSense of some kind.</returns>
     public static bool IsDualSense(HidDeviceInfo device) =>
         device.VendorId == SonyVendorId && DualSenseProducts.ContainsKey(device.ProductId);
 
     /// <summary>The name of a known controller, or an empty string.</summary>
-    /// <param name="device">The device.</param>
+    /// <param name="device">The device, as enumeration described it.</param>
     /// <returns>The product name.</returns>
     public static string NameOf(HidDeviceInfo device) =>
         IsDualSense(device) ? DualSenseProducts[device.ProductId] : string.Empty;

@@ -1,7 +1,9 @@
-// An open HID handle. ReadFile blocks until the device sends a report, which is exactly what
-// HidReportReader's background thread wants - and exactly why that thread has to be a
-// background thread: a blocked ReadFile cannot be cancelled from managed code, so the process
-// has to be allowed to exit with the thread still inside it.
+// An open HID handle.
+//
+// ReadFile blocks until the device sends a report, which is exactly what HidReportReader's
+// background thread wants - and exactly why that thread has to be a background thread: a
+// blocked ReadFile cannot be cancelled from managed code, so the process has to be allowed to
+// exit with the thread still inside it.
 
 using System;
 using Microsoft.Win32.SafeHandles;

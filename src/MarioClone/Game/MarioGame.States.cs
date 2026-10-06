@@ -1,4 +1,4 @@
-// The six states, as a table of legal moves plus one method each.
+// The six states, as a table of legal moves plus a method for each shape of state.
 //
 // Declaring the transitions rather than writing them as ifs means an illegal one - unpausing
 // into a death, restarting from the title - is refused by the machine instead of being a bug
@@ -43,11 +43,8 @@ public sealed partial class MarioGame
             case GameStateKind.Paused:
                 UpdatePaused();
                 break;
-            case GameStateKind.Death:
-                UpdateDeath();
-                break;
             default:
-                UpdateEnding();
+                UpdateWaiting();
                 break;
         }
     }
@@ -90,10 +87,18 @@ public sealed partial class MarioGame
         }
     }
 
-    private void UpdateDeath()
+    // Death, LevelComplete and GameOver are one state with three words on it: hold the screen
+    // for a moment, then move on. Where they move on to is the only difference between them.
+    private void UpdateWaiting()
     {
         if (_states.TimeInStateSeconds < PauseBeforeContinuingSeconds)
         {
+            return;
+        }
+
+        if (State != GameStateKind.Death)
+        {
+            _states.TryTransitionTo(GameStateKind.Title);
             return;
         }
 
@@ -104,14 +109,6 @@ public sealed partial class MarioGame
         }
 
         StartLevel();
-    }
-
-    private void UpdateEnding()
-    {
-        if (_states.TimeInStateSeconds >= PauseBeforeContinuingSeconds)
-        {
-            _states.TryTransitionTo(GameStateKind.Title);
-        }
     }
 
     // Reaching the flag and falling down a pit are the same shape of event: the level is over,

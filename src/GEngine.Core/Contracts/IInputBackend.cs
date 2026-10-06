@@ -20,7 +20,7 @@ public interface IInputBackend : IDisposable
     void Poll(float deltaSeconds);
 
     /// <summary>Whether an action is being asked for right now.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to ask about.</param>
     /// <returns>True while it is held.</returns>
     bool IsDown(InputAction action);
 
@@ -30,7 +30,7 @@ public interface IInputBackend : IDisposable
     /// against this instead of against <see cref="IsDown"/> is what makes analogue and
     /// digital movement feel like the same game.
     /// </summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to ask about.</param>
     /// <returns>A value from zero to one.</returns>
     float AxisValue(InputAction action);
 }

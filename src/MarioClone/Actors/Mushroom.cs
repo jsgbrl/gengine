@@ -1,7 +1,9 @@
 // A mushroom: walks like a goomba, is collected like a coin, and is what comes out of a
-// question block. It is a solid body rather than a trigger so that it can walk along the floor
-// instead of falling through it; the one frame in which it pushes the player is the frame in
-// which it is collected.
+// question block.
+//
+// It is a solid body rather than a trigger so that it can walk along the floor instead of
+// falling through it; the one frame in which it pushes the player is the frame in which it is
+// collected.
 
 using System;
 using GEngine.Physics;

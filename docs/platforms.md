@@ -34,6 +34,19 @@ DS4Windows, or the PlayStation Accessories app. gengine opens the device with
 `FILE_SHARE_READ | FILE_SHARE_WRITE` so both can read it. If the open still fails, the path and
 the reason are printed - there is no silent fallback to "no controller found".
 
+**Steam Input, and the cost of sharing.** Sharing has a visible consequence, and it is worth
+knowing before it happens to you. With Steam running and PlayStation support enabled, Steam
+applies its **Desktop Configuration** to the controller whenever no Steam game has focus - and
+that layout maps Cross to a left mouse click. So while you play gengine, every jump also clicks
+wherever the mouse pointer happens to be sitting. Parked over a terminal's tab bar, that means
+every jump switches tabs.
+
+This is not something the engine can prevent. Opening the device exclusively would stop it and
+would also fail outright whenever Steam got there first, which is most of the time. Sharing is
+the right trade, and this is its price. To stop it, in Steam: Settings, Controller, and either
+turn off **PlayStation Controller Support** or set the **Desktop Configuration** layout to none.
+Closing Steam works too.
+
 **Font.** The renderer draws with `U+2580`. Cascadia Mono, Consolas and the Windows Terminal
 defaults all have it. A console font that does not will show blanks.
 
@@ -84,3 +97,39 @@ dotnet run examples/04-gamepad-probe.cs
 It prints the platform, the HID backend it chose, every HID device the system will admit to,
 and then every controller report that differs from the last one. If something is wrong, this is
 the command whose output goes in the bug report.
+
+## What was actually run, and what was not
+
+Rule 10 of the build says: do not declare done what you did not run. So, precisely:
+
+| | built | unit tested | run on the system | hardware verified |
+|---|---|---|---|---|
+| **Windows 11** | yes | yes | yes — the game, all four examples, the whole suite | yes — a DualSense, VID `054C` PID `0CE6`, over USB, on 2026-08-26 |
+| **macOS** | yes | yes, through `FixedPlatformProbe` | **no** | **no** |
+| **Linux** | yes | yes, through `FixedPlatformProbe` | **no** | **no** |
+
+Everything in this repository was developed and executed on Windows 11. The macOS and Linux code
+paths compile — they are in the same binary, and there is no conditional compilation to hide
+behind — and the parts that can be tested without the system are tested: the factory picks the
+right driver for a given probe, the ANSI encoder produces the right bytes for a given depth, the
+HID reader decodes the right buttons from a captured report.
+
+What is **not** covered by any of that:
+
+- **`MacOsHidBackend` and `MacOsHidDevice`.** Written against Apple's IOKit documentation and never
+  executed. The two things most likely to be wrong are the `CFRunLoopRunInMode` slice on the reader
+  thread (without which the callback is registered, correct, and never called) and the manual
+  `CFRetain`/`CFRelease` balance on the paths that fail early.
+- **`LinuxHidBackend` and `LinuxHidDevice`.** The simplest of the three — sysfs text and a
+  `FileStream` — and still never executed. The likely failure is a permission error surfacing in a
+  way that reads badly rather than an incorrect read.
+- **`MacOsConsoleDriver` and `LinuxConsoleDriver`.** Both assume an ANSI terminal, which is safe;
+  neither has drawn a frame on the system it is named after.
+- **Terminal resize behaviour** on either system.
+- **The `input` group name** in the udev rule above, which differs between distributions.
+
+`ApiCoverageTests` exempts these types by category, with that reason written into the test. They are
+the only exemptions in the repository that are about a system rather than about a type.
+
+If you run gengine on macOS or Linux, `dotnet run examples/04-gamepad-probe.cs` is the command whose
+output settles it.

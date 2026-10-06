@@ -1,7 +1,8 @@
-// Escape sequences, and the two fallbacks. A terminal that cannot take twenty-four bits
-// still gets the picture: the colour is mapped into the 256-colour cube, or into the
-// sixteen colours every terminal has had for forty years. The mapping is arithmetic, not a
-// table, so it is the same on Windows, macOS and Linux.
+// Escape sequences, and the two fallbacks.
+//
+// A terminal that cannot take twenty-four bits still gets the picture: the colour is mapped
+// into the 256-colour cube, or into the sixteen colours every terminal has had for forty years.
+// The mapping is arithmetic, not a table, so it is the same on Windows, macOS and Linux.
 
 using System;
 using GEngine.Core;

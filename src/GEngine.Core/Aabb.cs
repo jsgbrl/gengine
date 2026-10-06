@@ -84,7 +84,7 @@ public readonly struct Aabb : IEquatable<Aabb>
         Min.X <= other.Max.X && Max.X >= other.Min.X && Min.Y <= other.Max.Y && Max.Y >= other.Min.Y;
 
     /// <summary>True when the point is inside the box or on its edge.</summary>
-    /// <param name="point">The point.</param>
+    /// <param name="point">The point, in the same space as the box.</param>
     /// <returns>True when the point is not outside.</returns>
     public bool Contains(Vector2 point) =>
         point.X >= Min.X && point.X <= Max.X && point.Y >= Min.Y && point.Y <= Max.Y;
@@ -105,7 +105,7 @@ public readonly struct Aabb : IEquatable<Aabb>
     public Aabb Union(Aabb other) => new(Vector2.Min(Min, other.Min), Vector2.Max(Max, other.Max));
 
     /// <summary>The point of the box nearest a given point, which is the point itself when inside.</summary>
-    /// <param name="point">The point.</param>
+    /// <param name="point">The point to find the nearest edge to.</param>
     /// <returns>The nearest point on or in the box.</returns>
     public Vector2 ClosestPoint(Vector2 point) => Vector2.Min(Vector2.Max(point, Min), Max);
 

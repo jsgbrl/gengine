@@ -38,7 +38,7 @@ public static class ConsoleCapabilities
         Detect(Environment.GetEnvironmentVariable("COLORTERM"), Environment.GetEnvironmentVariable("TERM"));
 
     /// <summary>A sentence explaining a depth, for the log and for the title screen.</summary>
-    /// <param name="depth">The depth.</param>
+    /// <param name="depth">The colour depth to describe.</param>
     /// <returns>The explanation.</returns>
     public static string Describe(ColorDepth depth) => depth switch
     {

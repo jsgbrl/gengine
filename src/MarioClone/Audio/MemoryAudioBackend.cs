@@ -20,7 +20,7 @@ public sealed class MemoryAudioBackend : IAudioBackend
     public void Play(GameSound sound) => _played.Add(sound);
 
     /// <summary>How many times a sound was asked for.</summary>
-    /// <param name="sound">The sound.</param>
+    /// <param name="sound">The sound to count.</param>
     /// <returns>The count.</returns>
     public int CountOf(GameSound sound)
     {

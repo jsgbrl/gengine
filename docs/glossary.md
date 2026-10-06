@@ -2,7 +2,8 @@
 
 One concept, one word, everywhere in the repository. `VocabularyTests` in
 `GEngine.Architecture.Tests` fails the build when a synonym from the right-hand column shows up
-in engine code.
+in the project that owns the word - `surface` is banned in `GEngine.Rendering`, where the word
+is `frame buffer`, and allowed in `GEngine.Physics`, where a surface is the thing you land on.
 
 ## The words
 
@@ -16,7 +17,7 @@ in engine code.
 | **frame** | One turn of the game loop | tick, iteration |
 | **step** | One fixed-time slice of the simulation | tick, iteration, update |
 | **fixed step** | The `1/60` s slice physics and gameplay run in | fixed tick, physics frame |
-| **delta seconds** | How much time a frame or a step covers | dt, elapsed, timestep |
+| **delta seconds** | How much time a frame or a step covers | dt, timestep, interval |
 | **contact** | One touch between two bodies, this step | hit, collision event, touch |
 | **normal** | Unit vector from the other body towards this one | direction, axis |
 | **penetration** | How deep an overlap was before it was resolved | depth, intersection |
@@ -25,12 +26,15 @@ in engine code.
 | **sweep** | A continuous test along a movement | cast, trace, raycast |
 | **tile** | One cell of the level's collision grid | block, brick, square |
 | **frame buffer** | The rectangle of pixels being drawn into | canvas, surface, bitmap |
+| **pixel font** | Letters drawn as pixels, five by seven (`PixelFont`) | bitmap font, raster font |
 | **pixel** | One colour in a frame buffer. Two per character cell | dot, point |
 | **cell** | One character position in the terminal | character, glyph, tile |
-| **sprite** | A named rectangle of pixels loaded from text | image, texture, bitmap |
-| **present** | Putting a finished frame on a surface | flush, blit, draw, swap |
+| **sprite** | A named rectangle of pixels loaded from text | image, texture, sprite sheet |
+| **present** | Putting a finished frame on the terminal | flush, blit, swap |
+| **draw** | Putting pixels into a frame buffer | paint, plot |
 | **camera** | The rectangle of the world currently on screen | view, viewport |
-| **action** | Something the player asks for: Jump, MoveLeft | command, binding, input |
+| **action** | Something the player asks for: Jump, MoveLeft | command, input, intent |
+| **binding** | The pairing of a key or a button with an action | mapping, assignment |
 | **backend** | One source of input, or one implementation of a platform contract | driver, provider, adapter |
 | **driver** | The terminal, per platform (`IConsoleDriver`) | backend, terminal, console |
 | **report** | The 64 bytes a HID device sends | packet, message, frame |
@@ -48,6 +52,10 @@ machine.
 
 **Scene** and **level**. A level is a file: a tilemap and where things start. A scene is what is
 running: the entities currently being updated. Loading a level fills a scene.
+
+**Delta seconds** and **elapsed seconds**. Delta seconds is the length of one frame or one step.
+Elapsed seconds is how long the clock has been running, and it only ever goes up (`IClock`). A
+name with `Elapsed` in it is always a total, never a length.
 
 ## Units, always in the name
 

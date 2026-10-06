@@ -1,8 +1,10 @@
-// Signatures only, and twice as many as the other two systems need - because on macOS there
-// is no file to open and no handle to read. A device is an object in the IOKit registry,
-// described by a Core Foundation dictionary, and it delivers reports by calling back into a
-// run loop. So this file imports two frameworks: IOKit for the devices and CoreFoundation for
-// the dictionaries, numbers and strings that describe them.
+// Signatures only, and twice as many as the other two systems need - because on macOS there is
+// no file to open and no handle to read.
+//
+// A device is an object in the IOKit registry, described by a Core Foundation dictionary, and
+// it delivers reports by calling back into a run loop. So this file imports two frameworks:
+// IOKit for the devices and CoreFoundation for the dictionaries, numbers and strings that
+// describe them.
 //
 // [DllImport] and not [LibraryImport]: the LibraryImport generator emits marshalling stubs
 // that require AllowUnsafeBlocks, which rule 6 of the build prompt bans. SYSLIB1054 is turned

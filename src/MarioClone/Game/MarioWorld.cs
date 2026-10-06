@@ -61,7 +61,7 @@ public sealed class MarioWorld
     public Player? Player { get; private set; }
 
     /// <summary>Adds an actor: an entity in the scene and a body in the physics world.</summary>
-    /// <param name="actor">The actor.</param>
+    /// <param name="actor">The actor; it joins the world, the scene and the physics at once.</param>
     /// <param name="name">What to call its entity.</param>
     /// <returns>The same actor, so a caller can keep the reference.</returns>
     public Actor Add(Actor actor, string name)

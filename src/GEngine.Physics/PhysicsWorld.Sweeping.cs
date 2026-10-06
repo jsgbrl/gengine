@@ -69,25 +69,16 @@ public sealed partial class PhysicsWorld
     private static void SnapToSurface(RigidBody2D body, Obstruction obstruction)
     {
         Vector2 normal = obstruction.Result.Normal;
-        Vector2 half = body.HalfSize;
         Aabb face = obstruction.Bounds;
-        if (normal.X > 0.0f)
-        {
-            body.Position = body.Position.WithX(face.Right + half.X);
-        }
-        else if (normal.X < 0.0f)
-        {
-            body.Position = body.Position.WithX(face.Left - half.X);
-        }
-        else if (normal.Y > 0.0f)
-        {
-            body.Position = body.Position.WithY(face.Bottom + half.Y);
-        }
-        else
-        {
-            body.Position = body.Position.WithY(face.Top - half.Y);
-        }
+        body.Position = normal.X != 0.0f
+            ? body.Position.WithX(Against(face.Right, face.Left, body.HalfSize.X, normal.X))
+            : body.Position.WithY(Against(face.Bottom, face.Top, body.HalfSize.Y, normal.Y));
     }
+
+    // The same arithmetic on both axes: the body sits against the near edge of what stopped it,
+    // offset by its own half size. Which edge is near is what the normal says.
+    private static float Against(float positiveSide, float negativeSide, float half, float normal) =>
+        normal > 0.0f ? positiveSide + half : negativeSide - half;
 
     private void RespondToSurface(RigidBody2D body, Obstruction obstruction)
     {

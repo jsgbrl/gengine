@@ -79,19 +79,9 @@ public static class LevelLoader
     {
         List<string> rows = [];
         bool inGrid = false;
-        foreach (string raw in text.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n'))
+        foreach (string raw in Split(text))
         {
-            string row = raw.TrimEnd();
-            if (!inGrid)
-            {
-                inGrid = row.Trim().Equals(TilesMarker, StringComparison.OrdinalIgnoreCase);
-                continue;
-            }
-
-            if (row.Length > 0)
-            {
-                rows.Add(row);
-            }
+            inGrid = ReadLine(rows, raw.TrimEnd(), inGrid);
         }
 
         if (!inGrid)
@@ -101,4 +91,23 @@ public static class LevelLoader
 
         return rows;
     }
+
+    // Returns whether the grid has started, which is the only state a header line can change.
+    private static bool ReadLine(List<string> rows, string row, bool inGrid)
+    {
+        if (!inGrid)
+        {
+            return row.Trim().Equals(TilesMarker, StringComparison.OrdinalIgnoreCase);
+        }
+
+        if (row.Length > 0)
+        {
+            rows.Add(row);
+        }
+
+        return true;
+    }
+
+    private static string[] Split(string text) =>
+        text.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n');
 }

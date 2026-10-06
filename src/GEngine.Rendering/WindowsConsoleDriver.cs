@@ -1,7 +1,9 @@
-// Windows. Escape sequences are not interpreted until the console mode says so, and asking
-// takes three calls into kernel32: get the handle, read the mode, write it back with one
-// more bit set. Windows Terminal has that bit on already; a plain conhost window does not,
-// and without this a frame prints as a screenful of escape codes.
+// Windows.
+//
+// Escape sequences are not interpreted until the console mode says so, and asking takes three
+// calls into kernel32: get the handle, read the mode, write it back with one more bit set.
+// Windows Terminal has that bit on already; a plain conhost window does not, and without this a
+// frame prints as a screenful of escape codes.
 
 using System;
 using System.IO;

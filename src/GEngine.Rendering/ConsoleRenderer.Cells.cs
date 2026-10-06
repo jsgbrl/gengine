@@ -1,7 +1,8 @@
 // The inner loop: one character cell at a time, skipping the ones that have not changed and
-// sending a colour only when it differs from the colour already in effect. A row of
-// unchanged cells costs nothing; a row of same-coloured cells costs one escape and then one
-// character each.
+// sending a colour only when it differs from the colour already in effect.
+//
+// A row of unchanged cells costs nothing; a row of same-coloured cells costs one escape and
+// then one character each.
 
 using GEngine.Core;
 using GEngine.Core.Contracts;

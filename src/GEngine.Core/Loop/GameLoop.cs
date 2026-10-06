@@ -1,7 +1,9 @@
-// The heart of the engine. The shape below is the one Glenn Fiedler describes in
-// "Fix Your Timestep!": measure the real frame, clamp it, add it to an accumulator, run
-// as many fixed steps as fit, and hand the leftover to the renderer as an interpolation
-// factor. Everything else in gengine is arranged around these twenty lines.
+// The heart of the engine.
+//
+// The shape below is the one Glenn Fiedler describes in "Fix Your Timestep!": measure the real
+// frame, clamp it, add it to an accumulator, run as many fixed steps as fit, and hand the
+// leftover to the renderer as an interpolation factor. Everything else in gengine is arranged
+// around these twenty lines.
 
 using System;
 using GEngine.Core.Time;

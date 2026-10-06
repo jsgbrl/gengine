@@ -1,5 +1,5 @@
 // Where a thing is, and where it is relative to whatever it hangs from. There is no
-// rotation here on purpose: the console renderer cannot blit a rotated sprite, and an
+// rotation here on purpose: the console renderer cannot draw a rotated sprite, and an
 // engine that carries an angle nothing reads is carrying dead code.
 
 using System;

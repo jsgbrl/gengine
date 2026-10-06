@@ -1,6 +1,6 @@
 using GEngine.Core.Contracts;
-using MarioClone.Tests.Doubles;
 using GEngine.Testing;
+using MarioClone.Tests.Doubles;
 
 namespace MarioClone.Tests;
 
@@ -105,18 +105,8 @@ public sealed class PlayerJumpTests
     [Test]
     public void TheJumpBuffer_RemembersAPressMadeJustBeforeLanding()
     {
-        const float FloorTop = 40.0f;
         var test = new TestWorld(Flat);
-        test.Step(5);
-        test.Hold(InputAction.Jump);
-        test.Step(20);
-        test.Release();
-
-        while (!test.Player.IsGrounded && test.Player.Bounds.Bottom < FloorTop - 4.0f)
-        {
-            test.Step();
-        }
-
+        FallToJustAboveTheFloor(test);
         Assert.IsFalse(test.Player.IsGrounded, "not landed yet, but very nearly");
 
         test.Hold(InputAction.Jump);
@@ -126,6 +116,22 @@ public sealed class PlayerJumpTests
 
         test.Step(4);
         Assert.IsTrue(test.Player.Body.Velocity.Y < 0.0f, "the buffered jump fired on landing");
+    }
+
+    // Jump, then fall until the floor is four pixels away. Walking the player there beats
+    // guessing a step count, which changes every time a tuning number changes.
+    private static void FallToJustAboveTheFloor(TestWorld test)
+    {
+        const float FloorTop = 40.0f;
+        test.Step(5);
+        test.Hold(InputAction.Jump);
+        test.Step(20);
+        test.Release();
+
+        while (!test.Player.IsGrounded && test.Player.Bounds.Bottom < FloorTop - 4.0f)
+        {
+            test.Step();
+        }
     }
 
     [Test]

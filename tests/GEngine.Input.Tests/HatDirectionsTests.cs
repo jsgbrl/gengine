@@ -9,7 +9,7 @@ namespace GEngine.Input.Tests;
 /// Covers the D-pad: all eight directions plus neutral, decoded from the neutral fixture with
 /// its hat nibble changed - which is exactly what the controller does to that byte.
 /// </summary>
-public sealed class HatDirectionTests
+public sealed class HatDirectionsTests
 {
     [TestCase(0, HatDirection.North)]
     [TestCase(1, HatDirection.NorthEast)]

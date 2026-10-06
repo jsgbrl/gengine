@@ -49,7 +49,7 @@ public static class MarioFactory
     }
 
     /// <summary>Turns the level's grid into the collision source the physics world reads.</summary>
-    /// <param name="level">The level.</param>
+    /// <param name="level">The level whose grid to convert.</param>
     /// <returns>The tilemap.</returns>
     public static TileCollisionSource BuildTiles(Level level)
     {
@@ -81,11 +81,24 @@ public static class MarioFactory
             case SpawnKind.Coin:
                 world.Add(new Coin(Body(center, Coin.SizePixels, Coin.SizePixels)), "coin");
                 break;
+            default:
+                PlaceBlock(world, spawn, center);
+                break;
+        }
+    }
+
+    // A brick, a question block and the flag are the three things that fill the cell they came
+    // from, which is why they are the three that need to know how big a cell is.
+    private static void PlaceBlock(MarioWorld world, LevelSpawn spawn, Vector2 center)
+    {
+        float size = world.Level.TileSize;
+        switch (spawn.Kind)
+        {
             case SpawnKind.Brick:
-                world.Add(new Brick(Body(center, world.Level.TileSize, world.Level.TileSize)), "brick");
+                world.Add(new Brick(Body(center, size, size)), "brick");
                 break;
             case SpawnKind.QuestionBlock:
-                world.Add(new QuestionBlock(Body(center, world.Level.TileSize, world.Level.TileSize), PrizeFor(spawn)), "block");
+                world.Add(new QuestionBlock(Body(center, size, size), PrizeFor(spawn)), "block");
                 break;
             default:
                 PlaceGoal(world, spawn);

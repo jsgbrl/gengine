@@ -139,7 +139,7 @@ internal sealed class TileWalker : IGame
         _frame.Resize(_session.Renderer.Width, _session.Renderer.Height);
         _frame.Clear(Palette.Sky);
         DrawTiles();
-        _frame.DrawRect(Screen(_player.Bounds), Palette.Red);
+        _frame.DrawRectangle(Screen(_player.Bounds), Palette.Red);
         DrawHud();
         _session.Renderer.Present(_frame);
     }
@@ -222,7 +222,7 @@ internal sealed class TileWalker : IGame
             return;
         }
 
-        _frame.DrawRect(Screen(bounds), row == _tiles.Rows - 1 ? Palette.Brown : Palette.LightBrown);
+        _frame.DrawRectangle(Screen(bounds), row == _tiles.Rows - 1 ? Palette.Brown : Palette.LightBrown);
     }
 
     private void DrawHud()

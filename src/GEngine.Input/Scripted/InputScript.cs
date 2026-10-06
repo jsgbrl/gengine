@@ -29,7 +29,7 @@ public sealed partial class InputScript
     public int HoldCount => _holds.Count;
 
     /// <summary>Holds an action over a range of frames, both ends included.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to hold.</param>
     /// <param name="firstFrame">First frame it is held, counting from zero.</param>
     /// <param name="lastFrame">Last frame it is held.</param>
     /// <returns>This script, so holds can be chained.</returns>
@@ -44,7 +44,7 @@ public sealed partial class InputScript
 
     /// <summary>Whether an action is held on a frame.</summary>
     /// <param name="frame">The frame, counting from zero.</param>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to ask about.</param>
     /// <returns>True when some hold covers that frame.</returns>
     public bool IsHeld(int frame, InputAction action)
     {

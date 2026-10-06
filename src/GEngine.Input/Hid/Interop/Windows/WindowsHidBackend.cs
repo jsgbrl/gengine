@@ -35,6 +35,15 @@ public sealed class WindowsHidBackend : IHidBackend
         }
 
         NativeMethods.HidD_GetHidGuid(out Guid hidGuid);
+        Collect(hidGuid, found);
+        found.Sort(static (left, right) => string.CompareOrdinal(left.Path, right.Path));
+        return found;
+    }
+
+    // SetupAPI hands out a device set that has to be given back, whatever happens in between.
+    // An invalid handle is -1 rather than zero, which is the trap in this API.
+    private static void Collect(Guid hidGuid, List<HidDeviceInfo> found)
+    {
         IntPtr set = NativeMethods.SetupDiGetClassDevs(
             ref hidGuid,
             IntPtr.Zero,
@@ -43,7 +52,7 @@ public sealed class WindowsHidBackend : IHidBackend
 
         if (set == IntPtr.Zero || set == new IntPtr(-1))
         {
-            return found;
+            return;
         }
 
         try
@@ -54,9 +63,6 @@ public sealed class WindowsHidBackend : IHidBackend
         {
             NativeMethods.SetupDiDestroyDeviceInfoList(set);
         }
-
-        found.Sort(static (left, right) => string.CompareOrdinal(left.Path, right.Path));
-        return found;
     }
 
     /// <inheritdoc/>
@@ -140,18 +146,23 @@ public sealed class WindowsHidBackend : IHidBackend
         IntPtr detail = Marshal.AllocHGlobal(required);
         try
         {
-            Marshal.WriteInt32(detail, IntPtr.Size == 8 ? 8 : 6);
-            if (!NativeMethods.SetupDiGetDeviceInterfaceDetail(set, ref data, detail, required, out _, IntPtr.Zero))
-            {
-                return string.Empty;
-            }
-
-            return Marshal.PtrToStringUni(IntPtr.Add(detail, 4)) ?? string.Empty;
+            return ReadDetail(set, ref data, detail, required);
         }
         finally
         {
             Marshal.FreeHGlobal(detail);
         }
+    }
+
+    private static string ReadDetail(IntPtr set, ref NativeMethods.SpDeviceInterfaceData data, IntPtr detail, int size)
+    {
+        Marshal.WriteInt32(detail, IntPtr.Size == 8 ? 8 : 6);
+        if (!NativeMethods.SetupDiGetDeviceInterfaceDetail(set, ref data, detail, size, out _, IntPtr.Zero))
+        {
+            return string.Empty;
+        }
+
+        return Marshal.PtrToStringUni(IntPtr.Add(detail, 4)) ?? string.Empty;
     }
 
     private static bool TryReadAttributes(SafeFileHandle handle, out int vendorId, out int productId)

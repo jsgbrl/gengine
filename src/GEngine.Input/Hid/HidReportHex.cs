@@ -12,7 +12,7 @@ namespace GEngine.Input.Hid;
 public static class HidReportHex
 {
     /// <summary>Formats a report as space-separated two-digit hexadecimal.</summary>
-    /// <param name="report">The bytes.</param>
+    /// <param name="report">The bytes to format; an empty array gives an empty string.</param>
     /// <returns>Text such as "01 80 80 7F".</returns>
     public static string ToText(ReadOnlySpan<byte> report)
     {

@@ -24,7 +24,7 @@ public static class MathG
         MathF.Abs(left - right) <= epsilon;
 
     /// <summary>Keeps a value inside a range.</summary>
-    /// <param name="value">The value.</param>
+    /// <param name="value">The number to bring inside the range.</param>
     /// <param name="minimum">Lower bound.</param>
     /// <param name="maximum">Upper bound.</param>
     /// <returns>The value, pulled to the nearest bound if it was outside.</returns>
@@ -32,7 +32,7 @@ public static class MathG
         MathF.Min(MathF.Max(value, minimum), maximum);
 
     /// <summary>Keeps a value between zero and one.</summary>
-    /// <param name="value">The value.</param>
+    /// <param name="value">The number to bring into zero to one.</param>
     /// <returns>The clamped value.</returns>
     public static float Clamp01(float value) => Clamp(value, 0.0f, 1.0f);
 
@@ -73,7 +73,7 @@ public static class MathG
     }
 
     /// <summary>The sign of a value, with zero mapping to zero.</summary>
-    /// <param name="value">The value.</param>
+    /// <param name="value">The number to take the sign of.</param>
     /// <returns>Minus one, zero or one.</returns>
     public static float Sign(float value)
     {
@@ -86,17 +86,17 @@ public static class MathG
     }
 
     /// <summary>Largest integer not greater than the value.</summary>
-    /// <param name="value">The value.</param>
+    /// <param name="value">The number to round down.</param>
     /// <returns>The floor, as an integer.</returns>
     public static int FloorToInt(float value) => (int)MathF.Floor(value);
 
     /// <summary>Smallest integer not less than the value.</summary>
-    /// <param name="value">The value.</param>
+    /// <param name="value">The number to round up.</param>
     /// <returns>The ceiling, as an integer.</returns>
     public static int CeilToInt(float value) => (int)MathF.Ceiling(value);
 
     /// <summary>Nearest integer, with halves going away from zero.</summary>
-    /// <param name="value">The value.</param>
+    /// <param name="value">The number to round.</param>
     /// <returns>The rounded value, as an integer.</returns>
     public static int RoundToInt(float value) => (int)MathF.Round(value, MidpointRounding.AwayFromZero);
 }

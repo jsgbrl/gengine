@@ -34,7 +34,7 @@ public sealed class GamepadMap
     public void Bind(GamepadButtons button, InputAction action) => _bindings[button] = action;
 
     /// <summary>Removes a binding.</summary>
-    /// <param name="button">The button.</param>
+    /// <param name="button">The button to unbind; unbinding an unbound button does nothing.</param>
     /// <returns>True when it was bound.</returns>
     public bool Unbind(GamepadButtons button) => _bindings.Remove(button);
 
@@ -42,7 +42,7 @@ public sealed class GamepadMap
     public IReadOnlyDictionary<GamepadButtons, InputAction> Bindings => _bindings;
 
     /// <summary>Which buttons ask for an action, sorted so a listing is reproducible.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to look up.</param>
     /// <returns>The buttons bound to it.</returns>
     public IReadOnlyList<GamepadButtons> ButtonsFor(InputAction action)
     {
@@ -60,7 +60,7 @@ public sealed class GamepadMap
     }
 
     /// <summary>The buttons for an action, as something a title screen can print.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to describe.</param>
     /// <returns>Text such as "CROSS", or the D-pad for the movement actions.</returns>
     public string Describe(InputAction action)
     {

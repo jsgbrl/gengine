@@ -88,7 +88,7 @@ public sealed class HeadlessRendererTests
     private static void DrawAndPresent(HeadlessRenderer renderer, FrameBuffer frame)
     {
         frame.Clear(Palette.Sky);
-        frame.DrawRect(new Aabb(new Vector2(4.0f, 4.0f), new Vector2(20.0f, 20.0f)), Palette.Brown);
+        frame.DrawRectangle(new Aabb(new Vector2(4.0f, 4.0f), new Vector2(20.0f, 20.0f)), Palette.Brown);
         frame.DrawText("SCORE 000100", new Vector2(2.0f, 1.0f), Palette.White);
         renderer.Present(frame);
     }

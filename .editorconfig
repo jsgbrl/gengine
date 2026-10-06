@@ -242,7 +242,7 @@ dotnet_diagnostic.CA1051.severity = none
 dotnet_diagnostic.CA1002.severity = none
 
 # CA1819 wants arrays behind IReadOnlyList. A frame buffer is a flat array by
-# definition, and an interface dispatch in the blit loop is the one cost this renderer
+# definition, and an interface dispatch in the pixel-copying loop is the one cost this renderer
 # cannot pay.
 dotnet_diagnostic.CA1819.severity = none
 

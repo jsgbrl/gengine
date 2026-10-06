@@ -1,7 +1,8 @@
-// A renderer that presents to nowhere and remembers what it was given. Every rendering test
-// in the repository goes through this: a frame is drawn, presented, and then compared -
-// which is how the drawing code is tested without a terminal, and how the allocation test
-// can measure a frame without the console driver in the way.
+// A renderer that presents to nowhere and remembers what it was given.
+//
+// Every rendering test in the repository goes through this: a frame is drawn, presented, and
+// then compared - which is how the drawing code is tested without a terminal, and how the
+// allocation test can measure a frame without the console driver in the way.
 
 using System;
 using GEngine.Core;
@@ -39,7 +40,7 @@ public sealed class HeadlessRenderer : IRenderer
     {
         ArgumentNullException.ThrowIfNull(frame);
         _lastFrame.Clear(Color.Transparent);
-        _lastFrame.Blit(frame, Vector2.Zero);
+        _lastFrame.DrawPixels(frame, Vector2.Zero);
         PresentCount++;
     }
 

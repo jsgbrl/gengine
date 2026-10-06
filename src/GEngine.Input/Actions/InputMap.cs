@@ -42,23 +42,23 @@ public sealed partial class InputMap
     public int Count => _bindings.Count;
 
     /// <summary>Binds a key to an action, replacing whatever that key did before.</summary>
-    /// <param name="key">The key.</param>
+    /// <param name="key">The key, as ConsoleKey reports it.</param>
     /// <param name="action">What it should ask for.</param>
     public void Bind(ConsoleKey key, InputAction action) => _bindings[key] = action;
 
     /// <summary>Removes a binding.</summary>
-    /// <param name="key">The key.</param>
+    /// <param name="key">The key to unbind; unbinding an unbound key does nothing.</param>
     /// <returns>True when the key was bound.</returns>
     public bool Unbind(ConsoleKey key) => _bindings.Remove(key);
 
     /// <summary>What a key asks for.</summary>
-    /// <param name="key">The key.</param>
+    /// <param name="key">The key to look up.</param>
     /// <param name="action">The action, when the key is bound.</param>
     /// <returns>True when the key is bound.</returns>
     public bool TryGetAction(ConsoleKey key, out InputAction action) => _bindings.TryGetValue(key, out action);
 
     /// <summary>Which keys ask for an action, sorted so a listing is reproducible.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to look up.</param>
     /// <returns>The keys bound to it.</returns>
     public IReadOnlyList<ConsoleKey> KeysFor(InputAction action)
     {
@@ -76,7 +76,7 @@ public sealed partial class InputMap
     }
 
     /// <summary>The keys for an action, as something to print on a title screen.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to describe.</param>
     /// <returns>Text such as "LEFTARROW OR A", or "UNBOUND".</returns>
     public string Describe(InputAction action)
     {

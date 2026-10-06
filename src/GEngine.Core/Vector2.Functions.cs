@@ -56,12 +56,12 @@ public readonly partial struct Vector2
         new(MathF.Max(left.X, right.X), MathF.Max(left.Y, right.Y));
 
     /// <summary>Component-wise absolute value.</summary>
-    /// <param name="value">The vector.</param>
+    /// <param name="value">The vector to take the absolute value of.</param>
     /// <returns>Both components made positive.</returns>
     public static Vector2 Abs(Vector2 value) => new(MathF.Abs(value.X), MathF.Abs(value.Y));
 
     /// <summary>Shortens the vector to a maximum length, leaving shorter ones alone.</summary>
-    /// <param name="value">The vector.</param>
+    /// <param name="value">The vector to shorten.</param>
     /// <param name="maximumLength">Largest length allowed.</param>
     /// <returns>The clamped vector.</returns>
     public static Vector2 ClampLength(Vector2 value, float maximumLength)

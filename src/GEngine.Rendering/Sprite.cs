@@ -1,5 +1,5 @@
 // A sprite is a rectangle of colours with a name. It implements IPixelSource, which is the
-// same contract a frame buffer offers a renderer, so blitting a sprite and presenting a
+// same contract a frame buffer offers a renderer, so drawing a sprite and presenting a
 // frame are the same operation at two different scales.
 
 using System;

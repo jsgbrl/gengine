@@ -16,12 +16,12 @@ public static class AsciiSnapshot
     public const string DefaultRamp = " .:-=+*#%@";
 
     /// <summary>Captures a frame using the default ramp.</summary>
-    /// <param name="frame">The frame.</param>
+    /// <param name="frame">The pixels to read.</param>
     /// <returns>One line per pixel row, joined with newlines.</returns>
     public static string Capture(IPixelSource frame) => Capture(frame, DefaultRamp);
 
     /// <summary>Captures a frame using a ramp of characters, darkest first.</summary>
-    /// <param name="frame">The frame.</param>
+    /// <param name="frame">The pixels to read.</param>
     /// <param name="ramp">The characters to map brightness onto.</param>
     /// <returns>One line per pixel row, joined with newlines.</returns>
     public static string Capture(IPixelSource frame, string ramp)

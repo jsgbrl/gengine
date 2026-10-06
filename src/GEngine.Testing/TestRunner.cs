@@ -17,15 +17,9 @@ public static class TestRunner
     /// <returns>Zero when nothing failed, one when something did, two on a bad argument.</returns>
     public static int Run(IReadOnlyList<string> arguments, IReadOnlyList<Assembly> assemblies)
     {
-        RunOptions options;
-        try
+        RunOptions? options = ParseOrExplain(arguments);
+        if (options is null)
         {
-            options = RunOptions.Parse(arguments);
-        }
-        catch (ArgumentException badArgument)
-        {
-            Console.WriteLine(badArgument.Message);
-            Console.WriteLine(RunOptions.Usage());
             return 2;
         }
 
@@ -39,6 +33,22 @@ public static class TestRunner
         TestSummary summary = Execute(options, types);
         TestReport.Print(summary, options);
         return summary.ExitCode;
+    }
+
+    // A bad argument is a mistake at the keyboard, not a crash: it prints what was wrong and
+    // what the arguments are, and the caller turns null into exit code two.
+    private static RunOptions? ParseOrExplain(IReadOnlyList<string> arguments)
+    {
+        try
+        {
+            return RunOptions.Parse(arguments);
+        }
+        catch (ArgumentException badArgument)
+        {
+            Console.WriteLine(badArgument.Message);
+            Console.WriteLine(RunOptions.Usage());
+            return null;
+        }
     }
 
     /// <summary>Runs the matching cases without printing anything.</summary>

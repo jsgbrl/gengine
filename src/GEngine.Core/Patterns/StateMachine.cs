@@ -52,7 +52,7 @@ public sealed class StateMachine<TState>
     }
 
     /// <summary>Registers what to run when a state is entered.</summary>
-    /// <param name="state">The state.</param>
+    /// <param name="state">The state being entered.</param>
     /// <param name="action">What to run.</param>
     public void OnEnter(TState state, Action action)
     {
@@ -61,7 +61,7 @@ public sealed class StateMachine<TState>
     }
 
     /// <summary>Registers what to run when a state is left.</summary>
-    /// <param name="state">The state.</param>
+    /// <param name="state">The state being left.</param>
     /// <param name="action">What to run.</param>
     public void OnExit(TState state, Action action)
     {

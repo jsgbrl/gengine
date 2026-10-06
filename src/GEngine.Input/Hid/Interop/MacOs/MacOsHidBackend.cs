@@ -35,10 +35,19 @@ public sealed class MacOsHidBackend : IHidBackend, IDisposable
         }
 
         ReleaseRetained();
+        WithManager(found);
+        found.Sort(static (left, right) => string.CompareOrdinal(left.Path, right.Path));
+        return found;
+    }
+
+    // Core Foundation counts references by hand, so every Create has to have its Release on
+    // the way out however the way out happens. That is what the finally is for.
+    private void WithManager(List<HidDeviceInfo> found)
+    {
         IntPtr manager = NativeMethods.IOHIDManagerCreate(IntPtr.Zero, 0);
         if (manager == IntPtr.Zero)
         {
-            return found;
+            return;
         }
 
         try
@@ -50,9 +59,6 @@ public sealed class MacOsHidBackend : IHidBackend, IDisposable
             _ = NativeMethods.IOHIDManagerClose(manager, 0);
             CoreFoundationStrings.Release(manager);
         }
-
-        found.Sort(static (left, right) => string.CompareOrdinal(left.Path, right.Path));
-        return found;
     }
 
     /// <inheritdoc/>
@@ -85,7 +91,11 @@ public sealed class MacOsHidBackend : IHidBackend, IDisposable
             return;
         }
 
-        IntPtr devices = NativeMethods.IOHIDManagerCopyDevices(manager);
+        WithDevices(NativeMethods.IOHIDManagerCopyDevices(manager), found);
+    }
+
+    private void WithDevices(IntPtr devices, List<HidDeviceInfo> found)
+    {
         if (devices == IntPtr.Zero)
         {
             return;

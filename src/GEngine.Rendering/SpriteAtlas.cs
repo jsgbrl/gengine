@@ -1,7 +1,9 @@
-// Flyweight. A sprite is loaded from its text file once and then shared by everything that
-// draws it: a hundred coins on screen are a hundred references to one five-by-five array, not
-// a hundred copies of it. Mirrored versions are built once too, on the first request, because
-// a character that walks both ways needs exactly two of them and never a third.
+// Flyweight.
+//
+// A sprite is loaded from its text file once and then shared by everything that draws it: a
+// hundred coins on screen are a hundred references to one five-by-five array, not a hundred
+// copies of it. Mirrored versions are built once too, on the first request, because a character
+// that walks both ways needs exactly two of them and never a third.
 
 using System;
 using System.Collections.Generic;

@@ -110,15 +110,7 @@ public sealed class ReplayTests
     private static Outcome Play(InputScript script, InputRouter router, Action<int> beforeFrame)
     {
         using var renderer = new HeadlessRenderer(160, 96);
-        var game = new MarioGame(new MarioGameSettings
-        {
-            Renderer = renderer,
-            Router = router,
-            Assets = new EmbeddedAssetSource(typeof(MarioGame).Assembly),
-            Audio = new MemoryAudioBackend(),
-            StartsImmediately = true,
-        });
-
+        MarioGame game = Build(renderer, router);
         int frame = 0;
         for (; frame < script.FrameCount && game.State == GameStateKind.Playing; frame++)
         {
@@ -135,6 +127,16 @@ public sealed class ReplayTests
             game.Session.Coins,
             game.World.Player?.Position.X ?? 0.0f);
     }
+
+    private static MarioGame Build(HeadlessRenderer renderer, InputRouter router) =>
+        new(new MarioGameSettings
+        {
+            Renderer = renderer,
+            Router = router,
+            Assets = new EmbeddedAssetSource(typeof(MarioGame).Assembly),
+            Audio = new MemoryAudioBackend(),
+            StartsImmediately = true,
+        });
 
     private static InputScript LoadScript()
     {

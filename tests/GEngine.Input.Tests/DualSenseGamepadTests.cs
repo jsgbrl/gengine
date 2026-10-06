@@ -1,4 +1,3 @@
-using System;
 using GEngine.Core.Contracts;
 using GEngine.Input.Gamepad;
 using GEngine.Input.Hid;
@@ -11,7 +10,7 @@ namespace GEngine.Input.Tests;
 /// Covers <see cref="DualSenseGamepad"/> with no controller plugged in: connecting, decoding,
 /// mapping to actions, refusing Bluetooth, and surviving the cable coming out mid-level.
 /// </summary>
-public sealed class DualSenseGamepadTests
+public sealed partial class DualSenseGamepadTests
 {
     private const float Frame = 1.0f / 60.0f;
 
@@ -112,106 +111,6 @@ public sealed class DualSenseGamepadTests
         using DualSenseGamepad pad = Connected(Fixtures.Report("hat-east.txt"));
         pad.Poll(Frame);
         Assert.ApproximatelyEqual(1.0f, pad.AxisValue(InputAction.MoveRight));
-    }
-
-    [Test]
-    public void ChangingReportsBetweenPollsIsSeenAsAnEdge()
-    {
-        FakeHidDevice device = new FakeHidDevice().Queue(Fixtures.Report("cross.txt")).Queue(Neutral());
-        device.RepeatsLastReport = true;
-        using DualSenseGamepad pad = Gamepad(new FakeHidBackend().With(Controller, device));
-        pad.Poll(2.0f);
-
-        pad.Poll(Frame);
-        Assert.IsTrue(pad.IsDown(InputAction.Jump));
-        pad.Poll(Frame);
-        Assert.IsFalse(pad.IsDown(InputAction.Jump), "the button came up between two reports");
-    }
-
-    [Test]
-    public void UnpluggingMidGameDisconnectsTheBackendAndSaysWhy()
-    {
-        FakeHidDevice device = new FakeHidDevice().Queue(Neutral());
-        using DualSenseGamepad pad = Gamepad(new FakeHidBackend().With(Controller, device));
-        pad.Poll(2.0f);
-        pad.Poll(Frame);
-        Assert.IsTrue(pad.IsConnected);
-
-        device.Unplug();
-        pad.Poll(Frame);
-        pad.Poll(Frame);
-
-        Assert.IsFalse(pad.IsConnected);
-        Assert.IsTrue(_logger.Contains("unplugged"));
-    }
-
-    [Test]
-    public void AfterUnpluggingItAsksForNothingRatherThanHoldingTheLastFrame()
-    {
-        FakeHidDevice device = new FakeHidDevice().Queue(Fixtures.Report("cross.txt"));
-        using DualSenseGamepad pad = Gamepad(new FakeHidBackend().With(Controller, device));
-        pad.Poll(2.0f);
-        pad.Poll(Frame);
-        Assert.IsTrue(pad.IsDown(InputAction.Jump));
-
-        device.Unplug();
-        pad.Poll(Frame);
-        pad.Poll(Frame);
-        Assert.IsFalse(pad.IsDown(InputAction.Jump), "a controller on the floor is not holding jump");
-    }
-
-    [Test]
-    public void PluggingItBackInPicksItUpAgain()
-    {
-        FakeHidBackend backend = new FakeHidBackend()
-            .With(Controller, new FakeHidDevice().Queue(Neutral()));
-        using DualSenseGamepad pad = Gamepad(backend);
-        pad.Poll(2.0f);
-        pad.Poll(Frame);
-        Assert.IsTrue(pad.IsConnected);
-
-        backend.UnplugAll();
-        pad.Poll(Frame);
-        pad.Poll(Frame);
-        Assert.IsFalse(pad.IsConnected, "the cable came out");
-
-        backend.With(Controller, new FakeHidDevice().Queue(Fixtures.Report("cross.txt")));
-        pad.Poll(2.0f);
-        pad.Poll(Frame);
-        Assert.IsTrue(pad.IsConnected, "and went back in");
-        Assert.IsTrue(pad.IsDown(InputAction.Jump), "the new controller is being read, not the old one");
-    }
-
-    [Test]
-    public void ABluetoothControllerIsRefusedWithAMessageThatSaysWhatToDo()
-    {
-        using DualSenseGamepad pad = Connected(Fixtures.Report("bluetooth.txt"));
-        pad.Poll(Frame);
-        Assert.IsFalse(pad.IsConnected);
-        Assert.IsTrue(_logger.Contains("Bluetooth"));
-        Assert.IsTrue(_logger.Contains("USB cable"));
-        Assert.AreEqual(GamepadState.Neutral, pad.State);
-    }
-
-    [Test]
-    public void RebindingTheMapTakesEffectOnTheNextPoll()
-    {
-        using DualSenseGamepad pad = Connected(Fixtures.Report("cross.txt"));
-        pad.Map.Bind(GamepadButtons.Cross, InputAction.Run);
-        pad.Poll(Frame);
-        Assert.IsTrue(pad.IsDown(InputAction.Run));
-        Assert.IsFalse(pad.IsDown(InputAction.Jump));
-    }
-
-    [Test]
-    public void AMissingBackendMapOrLoggerIsRefused()
-    {
-        Assert.Throws<ArgumentNullException>(
-            static () => new DualSenseGamepad(null!, GamepadMap.CreateDefault(), NullLogger.Instance));
-        Assert.Throws<ArgumentNullException>(
-            static () => new DualSenseGamepad(new FakeHidBackend(), null!, NullLogger.Instance));
-        Assert.Throws<ArgumentNullException>(
-            static () => new DualSenseGamepad(new FakeHidBackend(), GamepadMap.CreateDefault(), null!));
     }
 
     private static byte[] Neutral() => Fixtures.Report("neutral.txt");

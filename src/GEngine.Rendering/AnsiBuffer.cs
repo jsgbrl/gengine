@@ -34,7 +34,7 @@ public sealed class AnsiBuffer
     public void Clear() => Length = 0;
 
     /// <summary>Appends one character.</summary>
-    /// <param name="value">The character.</param>
+    /// <param name="value">The character to append.</param>
     public void Append(char value)
     {
         EnsureRoomFor(1);
@@ -42,7 +42,7 @@ public sealed class AnsiBuffer
     }
 
     /// <summary>Appends a string.</summary>
-    /// <param name="value">The string.</param>
+    /// <param name="value">The text to append; it is copied, not kept.</param>
     public void Append(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
@@ -52,7 +52,7 @@ public sealed class AnsiBuffer
     }
 
     /// <summary>Appends a non-negative number in decimal, without allocating.</summary>
-    /// <param name="value">The number.</param>
+    /// <param name="value">The number to append; it must not be negative.</param>
     public void AppendNumber(int value)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(value);

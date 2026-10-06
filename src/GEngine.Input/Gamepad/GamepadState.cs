@@ -58,7 +58,7 @@ public readonly struct GamepadState : IEquatable<GamepadState>
     public bool IsDown(GamepadButtons button) => (Buttons & button) == button;
 
     /// <summary>Whether any of several buttons is pressed.</summary>
-    /// <param name="buttons">The buttons.</param>
+    /// <param name="buttons">One or more button flags, combined with |.</param>
     /// <returns>True when at least one of them is pressed.</returns>
     public bool IsAnyDown(GamepadButtons buttons) => (Buttons & buttons) != GamepadButtons.None;
 

@@ -84,7 +84,7 @@ public abstract class Actor : Component, ICollisionListener
     internal void JoinWorld(MarioWorld world) => _world = world;
 
     /// <summary>The actor a body belongs to, or null when the body is level geometry.</summary>
-    /// <param name="body">The body.</param>
+    /// <param name="body">The body; a tile body has no actor and gives null.</param>
     /// <returns>The actor.</returns>
     protected static Actor? ActorOf(RigidBody2D body) => body.Owner as Actor;
 }

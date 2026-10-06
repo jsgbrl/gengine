@@ -82,13 +82,21 @@ public sealed partial class DualSenseGamepad : IInputBackend
             _reader.PumpOnce();
         }
 
-        if (!_reader.IsConnected)
+        ReadLatest(_reader);
+    }
+
+    // A reader that has lost its device is not an error. A controller can be unplugged in the
+    // middle of a game, and what should happen then is that the game carries on with whatever
+    // else is plugged in - which is the router's job, and it can only do it if it is told.
+    private void ReadLatest(HidReportReader reader)
+    {
+        if (!reader.IsConnected)
         {
             Detach("the controller was unplugged");
             return;
         }
 
-        if (_reader.TryTakeLatest(_report))
+        if (reader.TryTakeLatest(_report))
         {
             Decode();
         }

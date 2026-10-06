@@ -33,7 +33,7 @@ public sealed class InputState
     /// same action in one frame; the strongest wins, which is what lets a player hold left on
     /// the stick and left on the keyboard without the two cancelling out.
     /// </summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action being reported.</param>
     /// <param name="value">How strongly, from zero to one.</param>
     public void Report(InputAction action, float value)
     {
@@ -52,29 +52,29 @@ public sealed class InputState
     }
 
     /// <summary>Whether an action is being asked for right now.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to ask about.</param>
     /// <returns>True while it is held.</returns>
     public bool IsDown(InputAction action) => _current[(int)action] >= DownThreshold;
 
     /// <summary>Whether an action went down between the previous frame and this one.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to ask about.</param>
     /// <returns>True on exactly the frame it was pressed.</returns>
     public bool WasPressedThisFrame(InputAction action) =>
         _current[(int)action] >= DownThreshold && _previous[(int)action] < DownThreshold;
 
     /// <summary>Whether an action came up between the previous frame and this one.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to ask about.</param>
     /// <returns>True on exactly the frame it was released.</returns>
     public bool WasReleasedThisFrame(InputAction action) =>
         _current[(int)action] < DownThreshold && _previous[(int)action] >= DownThreshold;
 
     /// <summary>How long an action has been held, in seconds. Zero when it is not held.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to ask about.</param>
     /// <returns>The hold time.</returns>
     public float HoldTimeSeconds(InputAction action) => _heldSeconds[(int)action];
 
     /// <summary>How strongly an action is being asked for, from zero to one.</summary>
-    /// <param name="action">The action.</param>
+    /// <param name="action">The action to ask about.</param>
     /// <returns>The strength: one for a key, however far it is pushed for a stick.</returns>
     public float AxisValue(InputAction action) => _current[(int)action];
 

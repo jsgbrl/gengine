@@ -94,14 +94,18 @@ public sealed class InputRouter : IDisposable
         ActiveBackend = null;
     }
 
+    // Poll first, ask afterwards. A source discovers its device *during* Poll - a gamepad with
+    // no controller yet rescans there - so skipping a disconnected source is what would keep it
+    // disconnected for ever. That was a real bug: plugging a DualSense in mid-game did nothing,
+    // because the one call that would have noticed it was the call being skipped.
     private void PollOne(IInputBackend backend, float deltaSeconds)
     {
+        backend.Poll(deltaSeconds);
         if (!backend.IsConnected)
         {
             return;
         }
 
-        backend.Poll(deltaSeconds);
         bool reported = false;
         foreach (InputAction action in InputActions.All)
         {

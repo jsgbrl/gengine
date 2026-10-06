@@ -36,9 +36,9 @@ public static class Hud
             (int)session.TimeLeftSeconds,
             session.Lives);
 
-        BitmapFont.DrawTo(frame, left, new Vector2(MarginPixels, MarginPixels), Palette.White);
-        float rightX = frame.Width - MarginPixels - BitmapFont.MeasureWidth(right);
-        BitmapFont.DrawTo(frame, right, new Vector2(rightX, MarginPixels), Palette.White);
+        PixelFont.DrawTo(frame, left, new Vector2(MarginPixels, MarginPixels), Palette.White);
+        float rightX = frame.Width - MarginPixels - PixelFont.MeasureWidth(right);
+        PixelFont.DrawTo(frame, right, new Vector2(rightX, MarginPixels), Palette.White);
     }
 
     /// <summary>Draws a line of text in the middle of the frame, as a banner.</summary>
@@ -49,9 +49,9 @@ public static class Hud
     {
         ArgumentNullException.ThrowIfNull(frame);
         ArgumentNullException.ThrowIfNull(text);
-        float x = (frame.Width - BitmapFont.MeasureWidth(text)) / 2.0f;
-        float y = (frame.Height - BitmapFont.GlyphHeight) / 2.0f;
-        BitmapFont.DrawTo(frame, text, new Vector2(x, y), color);
+        float x = (frame.Width - PixelFont.MeasureWidth(text)) / 2.0f;
+        float y = (frame.Height - PixelFont.GlyphHeight) / 2.0f;
+        PixelFont.DrawTo(frame, text, new Vector2(x, y), color);
     }
 
     /// <summary>Draws a line of text centred, at a given height.</summary>
@@ -63,7 +63,7 @@ public static class Hud
     {
         ArgumentNullException.ThrowIfNull(frame);
         ArgumentNullException.ThrowIfNull(text);
-        float x = (frame.Width - BitmapFont.MeasureWidth(text)) / 2.0f;
-        BitmapFont.DrawTo(frame, text, new Vector2(x, y), color);
+        float x = (frame.Width - PixelFont.MeasureWidth(text)) / 2.0f;
+        PixelFont.DrawTo(frame, text, new Vector2(x, y), color);
     }
 }

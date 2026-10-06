@@ -1,7 +1,9 @@
-// The assertion vocabulary. Every failure message says what was expected and what
-// actually happened, in that order, because that is the order a reader debugs in.
-// Assert is partial only so each part stays inside the 150-line type budget: the
-// numeric and snapshot assertions live in Assert.Approximate.cs and Assert.Snapshot.cs.
+// The assertion vocabulary.
+//
+// Every failure message says what was expected and what actually happened, in that order,
+// because that is the order a reader debugs in. Assert is partial only so each part stays
+// inside the 150-line type budget: the numeric and snapshot assertions live in
+// Assert.Approximate.cs and Assert.Snapshot.cs.
 
 using System;
 using System.Collections.Generic;

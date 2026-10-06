@@ -1,7 +1,8 @@
 // What every console driver does the same way: open the stream, enter the alternate screen,
-// hide the cursor, and put it all back afterwards whatever happened. The three platform
-// drivers add one thing each - how they work out the colour depth, and what they have to do
-// to earn it.
+// hide the cursor, and put it all back afterwards whatever happened.
+//
+// The three platform drivers add one thing each - how they work out the colour depth, and what
+// they have to do to earn it.
 //
 // The output stream is a constructor parameter so a test can hand in a StringWriter and
 // assert on the exact bytes a driver would have sent, without a terminal and without

@@ -1,7 +1,9 @@
-// How a controller is attached. It matters because the two ways send different reports: the
-// USB report is 64 bytes starting with 0x01, the Bluetooth one is 78 bytes starting with
-// 0x31, and the fields sit at different offsets. Decoding one as the other produces a
-// controller that appears to be holding down buttons nobody is touching.
+// How a controller is attached.
+//
+// It matters because the two ways send different reports: the USB report is 64 bytes starting
+// with 0x01, the Bluetooth one is 78 bytes starting with 0x31, and the fields sit at different
+// offsets. Decoding one as the other produces a controller that appears to be holding down
+// buttons nobody is touching.
 
 namespace GEngine.Input.Hid;
 
